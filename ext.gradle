@@ -1,0 +1,30 @@
+ext {
+  // Kotlin
+  kotlinCoreVersion = '1.9.0'
+  kotlinCoroutineVersion = '1.6.4'
+
+  // Compose
+  composeBomVersion = '2022.10.00'
+  activityComposeVersion = '1.6.0'
+  navigationComposeVersion = '2.5.2'
+
+  // Database
+  roomVersion = '2.4.3'
+  sqliteJdbc = '3.36.0.1'
+  dataStoreVersion = '1.0.0'
+
+  // Lifecycle
+  lifecycleVersion = '2.5.1'
+
+  // Network
+  retrofitVersion = '2.9.0'
+  okhttpLoggingVersion = '4.9.3'
+
+  // Hilt
+  hiltVersion = '2.44'
+
+  // Testing
+  junitVersion = '4.13.2'
+  junitExtVersion = '1.1.5'
+  espressoVersion = '3.5.1'
+}
