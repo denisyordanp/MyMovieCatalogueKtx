@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.denisyordanp.mymoviecatalogue.R
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Dummy
@@ -35,7 +36,9 @@ import com.denisyordanp.mymoviecatalogue.ui.components.RateText
 import com.denisyordanp.mymoviecatalogue.ui.theme.MyMovieCatalogueTheme
 
 @Composable
-fun MainScreen() {
+fun MainScreen(
+    viewModel: MainViewModel = hiltViewModel()
+) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background

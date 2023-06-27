@@ -7,6 +7,9 @@ ext {
   composeBomVersion = '2022.10.00'
   activityComposeVersion = '1.6.0'
   navigationComposeVersion = '2.5.2'
+  coilComposeVersion = '2.4.0'
+  contraintComposeVerstion = '1.0.1'
+  hiltNavigationComposeVersion = '1.0.0'
 
   // Database
   roomVersion = '2.4.3'

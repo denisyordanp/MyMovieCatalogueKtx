@@ -1,8 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -70,8 +70,10 @@ dependencies {
     // Compose support
     implementation "androidx.activity:activity-compose:$activityComposeVersion"
     implementation "androidx.navigation:navigation-compose:$navigationComposeVersion"
-    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
-    implementation "io.coil-kt:coil-compose:2.4.0"
+    implementation "androidx.constraintlayout:constraintlayout-compose:$contraintComposeVerstion"
+    implementation "io.coil-kt:coil-compose:$coilComposeVersion"
+    implementation "androidx.navigation:navigation-compose:$navigationComposeVersion"
+    implementation "androidx.hilt:hilt-navigation-compose:$hiltNavigationComposeVersion"
 
     // Network
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
