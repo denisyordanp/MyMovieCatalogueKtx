@@ -10,11 +10,18 @@ import javax.inject.Inject
 class GetGenresImpl @Inject constructor(
     private val repository: MainRepository
 ) : GetGenres {
-    override fun invoke(): Flow<List<Genre>> {
+    override fun invoke(isForce: Boolean): Flow<List<Genre>> {
         return flow {
-            repository.reloadGenres()
+            if (isForce) {
+                repository.reloadGenres()
+            }
             repository.getGenres()
-                .collect(this)
+                .collect {
+                    if (it.isEmpty()) {
+                        repository.reloadGenres()
+                    }
+                    emit(it)
+                }
         }
     }
 }

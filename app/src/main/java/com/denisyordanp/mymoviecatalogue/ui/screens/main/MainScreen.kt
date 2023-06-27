@@ -16,6 +16,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -35,24 +36,37 @@ import com.denisyordanp.mymoviecatalogue.tools.convertFormat
 import com.denisyordanp.mymoviecatalogue.ui.components.Chips
 import com.denisyordanp.mymoviecatalogue.ui.components.RateText
 import com.denisyordanp.mymoviecatalogue.ui.theme.MyMovieCatalogueTheme
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @Composable
 fun MainScreen(
     viewModel: MainViewModel = hiltViewModel()
 ) {
-    val viewState = viewModel.viewState.collectAsState()
+    LaunchedEffect(key1 = Unit) {
+        viewModel.loadGenres(false)
+    }
+    val viewState = viewModel.viewState.collectAsState().value
 
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
     ) {
-        Column {
-            // Genres
-            Chips(list = viewState.value.genres)
-            Spacer(modifier = Modifier.height(12.dp))
+        val refreshState = rememberSwipeRefreshState(isRefreshing = viewState.isLoading)
+        SwipeRefresh(
+            state = refreshState,
+            onRefresh = {
+                viewModel.loadGenres(true)
+            }
+        ) {
+            Column {
+                // Genres
+                Chips(list = viewState.genres)
+                Spacer(modifier = Modifier.height(12.dp))
 
-            // Movies
-            Movies(list = Dummy.movies)
+                // Movies
+                Movies(list = Dummy.movies)
+            }
         }
     }
 }

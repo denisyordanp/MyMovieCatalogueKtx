@@ -14,18 +14,19 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    getGenres: GetGenres
+    private val getGenres: GetGenres
 ) : ViewModel() {
     private val _viewState = MutableStateFlow(MainViewState.idle())
     val viewState = _viewState.asStateFlow()
 
-    init {
+    fun loadGenres(isForce: Boolean) {
         viewModelScope.launch {
-            getGenres()
+            getGenres(isForce)
                 .map {
                     _viewState.value.copy(
                         genres = it,
-                        error = null
+                        error = null,
+                        isLoading = false
                     )
                 }.onStart {
                     emit(
@@ -36,7 +37,8 @@ class MainViewModel @Inject constructor(
                 }.catch {
                     emit(
                         _viewState.value.copy(
-                            error = it
+                            error = it,
+                            isLoading = false
                         )
                     )
                 }.collect {
