@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.denisyordanp.mymoviecatalogue.database.AppDatabase
 import com.denisyordanp.mymoviecatalogue.database.GenresDao
+import com.denisyordanp.mymoviecatalogue.database.MoviesDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,4 +30,7 @@ object DatabaseModule {
 
     @Provides
     fun provideGenreDao(appDatabase: AppDatabase): GenresDao = appDatabase.genreDao()
+
+    @Provides
+    fun provideMovieDao(appDatabase: AppDatabase): MoviesDao = appDatabase.movieDao()
 }
