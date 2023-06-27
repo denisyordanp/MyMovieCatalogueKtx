@@ -1,6 +1,7 @@
 package com.denisyordanp.mymoviecatalogue.network
 
 import com.denisyordanp.mymoviecatalogue.schemas.response.Genres
+import com.denisyordanp.mymoviecatalogue.schemas.response.Movies
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -18,5 +19,5 @@ interface MovieService {
         @Query("page") page: Int = 1,
         @Query("sort_by") sortBy: String = "popularity.desc",
         @Query("with_genres") genre: Int,
-    ): Genres
+    ): Movies
 }

@@ -1,5 +1,7 @@
 package com.denisyordanp.mymoviecatalogue.schemas.response
 
+import com.denisyordanp.mymoviecatalogue.schemas.database.Movie as DbMovie
+
 data class Movie(
     val id: Int,
     val adult: Boolean,
@@ -15,4 +17,17 @@ data class Movie(
     val video: Boolean,
     val voteAverage: Double,
     val voteCount: Int
-)
+) {
+    fun toEntity(genreId: Int): DbMovie {
+        return DbMovie(
+            id = id,
+            overview = overview,
+            posterPath = posterPath,
+            releaseDate = releaseDate,
+            title = title,
+            voteAverage = voteAverage,
+            voteCount = voteCount,
+            genreId = genreId
+        )
+    }
+}
