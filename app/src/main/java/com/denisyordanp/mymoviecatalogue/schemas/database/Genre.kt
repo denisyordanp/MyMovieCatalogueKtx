@@ -5,6 +5,8 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
+import com.denisyordanp.mymoviecatalogue.schemas.ui.Genre as UiGenre
+
 @Entity(
     tableName = Genre.TABLE_NAME,
     indices = [
@@ -20,15 +22,15 @@ data class Genre(
     val name: String
 ) {
 
-    fun toUi(): com.denisyordanp.mymoviecatalogue.schemas.ui.Genre {
-        return com.denisyordanp.mymoviecatalogue.schemas.ui.Genre(
+    fun toUi(): UiGenre {
+        return UiGenre(
             id = id,
             name = name
         )
     }
     companion object {
         const val TABLE_NAME = "genre"
-        const val ID_COLUMN = "id"
+        const val ID_COLUMN = "id_genre"
         const val NAME_COLUMN = "name"
     }
 }
