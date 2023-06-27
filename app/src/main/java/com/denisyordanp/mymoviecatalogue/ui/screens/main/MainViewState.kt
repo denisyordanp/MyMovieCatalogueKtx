@@ -1,22 +1,22 @@
 package com.denisyordanp.mymoviecatalogue.ui.screens.main
 
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Genre
-import com.denisyordanp.mymoviecatalogue.schemas.ui.Movie
 
 data class MainViewState(
-    val genres: List<Genre>,
-    val movies: List<Movie>,
     val selectedGenre: Genre?,
     val error: Throwable?,
-    val isLoading: Boolean
+    val genreViewState: GenreViewState,
+    val movieViewState: MovieViewState
 ) {
+
+    val isLoading: Boolean = movieViewState.isLoading || genreViewState.isLoading
+
     companion object {
         fun idle() = MainViewState(
-            genres = emptyList(),
-            movies = emptyList(),
+            genreViewState = GenreViewState.idle(),
+            movieViewState = MovieViewState.idle(),
             selectedGenre = null,
             error = null,
-            isLoading = false
         )
     }
 }

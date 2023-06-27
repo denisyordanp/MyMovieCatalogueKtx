@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">My Movie Catalogue</string>
+    <string name="something_wrong">Something went wrong</string>
+    <string name="please_try_again_later">Please try again later.</string>
 </resources>

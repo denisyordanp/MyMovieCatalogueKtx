@@ -12,11 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.denisyordanp.mymoviecatalogue.ui.theme.MyMovieCatalogueTheme
 
 @Composable
 fun RateText(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     rate: String,
     from: String
 ) {
@@ -38,6 +40,17 @@ fun RateText(
         Text(
             text = "($from)",
             style = MaterialTheme.typography.subtitle1,
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    MyMovieCatalogueTheme {
+        RateText(
+            rate = "4.5",
+            from = "1000"
         )
     }
 }

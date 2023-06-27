@@ -71,11 +71,11 @@ private fun Chip(
 
 @Preview
 @Composable
-private fun ChipsPreview() {
+private fun Preview() {
     MyMovieCatalogueTheme {
         Genres(
             list = Dummy.genres,
-            selectedGenre = Dummy.genres.get(3),
+            selectedGenre = Dummy.genres[3],
             onItemClicked = {}
         )
     }

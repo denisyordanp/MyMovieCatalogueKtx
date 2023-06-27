@@ -5,6 +5,9 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.denisyordanp.mymoviecatalogue.tools.DateFormat
+import com.denisyordanp.mymoviecatalogue.tools.NetworkConfig
+import com.denisyordanp.mymoviecatalogue.tools.convertFormat
 
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Movie as UiMovie
 
@@ -53,8 +56,11 @@ data class Movie(
         return UiMovie(
             id = id,
             overview = overview,
-            posterPath = posterPath,
-            releaseDate = releaseDate,
+            posterPath = "${NetworkConfig.getImageBaseUrl()}$posterPath",
+            releaseDate = releaseDate.convertFormat(
+                DateFormat.DEFAULT_FORMAT,
+                DateFormat.DATE_MONTH_YEAR_FORMAT
+            ),
             title = title,
             voteAverage = voteAverage,
             voteCount = voteCount

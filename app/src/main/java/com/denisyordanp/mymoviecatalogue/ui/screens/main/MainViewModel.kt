@@ -27,56 +27,73 @@ class MainViewModel @Inject constructor(
             getGenres(isForce)
                 .map {
                     val currentState = _viewState.value
-                    val isInitialLoad = currentState.selectedGenre == null
                     val selectedGenre = currentState.selectedGenre ?: it.first()
-                    if (isInitialLoad || isForce) {
-                        loadMovies(genreId = selectedGenre.id, isForce = isForce)
-                    }
                     currentState.copy(
-                        genres = it,
                         error = null,
-                        isLoading = false,
-                        selectedGenre = selectedGenre
+                        selectedGenre = selectedGenre,
+                        genreViewState = currentState.genreViewState.copy(
+                            genres = it,
+                            isLoading = false,
+                            error = null
+                        )
                     )
                 }.onStart {
+                    val currentState = _viewState.value
                     emit(
-                        _viewState.value.copy(
-                            isLoading = true
+                        currentState.copy(
+                            genreViewState = currentState.genreViewState.copy(
+                                isLoading = true
+                            )
                         )
                     )
                 }.catch {
+                    val currentState = _viewState.value
                     emit(
-                        _viewState.value.copy(
-                            error = it,
-                            isLoading = false
+                        currentState.copy(
+                            genreViewState = currentState.genreViewState.copy(
+                                isLoading = false,
+                                error = it
+                            )
                         )
                     )
                 }.collect {
                     _viewState.emit(it)
+                    if (it.genreViewState.error == null && it.selectedGenre != null) {
+                        loadMovies(genreId = it.selectedGenre.id, isForce = isForce)
+                    }
                 }
         }
     }
 
-    private fun loadMovies(genreId: Int, isForce: Boolean) {
+    fun loadMovies(genreId: Int? = null, isForce: Boolean) {
         viewModelScope.launch {
-            getMovies(genreId = genreId, isForce = isForce)
+            val currentGenreId = genreId ?: _viewState.value.selectedGenre!!.id
+            getMovies(genreId = currentGenreId, isForce = isForce)
                 .map {
-                    _viewState.value.copy(
-                        movies = it,
-                        error = null,
-                        isLoading = false,
+                    val currentState = _viewState.value
+                    currentState.copy(
+                        movieViewState = currentState.movieViewState.copy(
+                            movies = it,
+                            isLoading = false
+                        )
                     )
                 }.onStart {
+                    val currentState = _viewState.value
                     emit(
-                        _viewState.value.copy(
-                            isLoading = true
+                        currentState.copy(
+                            movieViewState = currentState.movieViewState.copy(
+                                isLoading = true
+                            )
                         )
                     )
                 }.catch {
+                    val currentState = _viewState.value
                     emit(
-                        _viewState.value.copy(
-                            error = it,
-                            isLoading = false
+                        currentState.copy(
+                            movieViewState = currentState.movieViewState.copy(
+                                isLoading = false,
+                                error = it
+                            )
                         )
                     )
                 }.collect {
