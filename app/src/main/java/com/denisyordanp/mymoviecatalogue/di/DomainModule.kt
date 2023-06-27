@@ -1,7 +1,9 @@
 package com.denisyordanp.mymoviecatalogue.di
 
 import com.denisyordanp.mymoviecatalogue.domain.GetGenres
+import com.denisyordanp.mymoviecatalogue.domain.GetMovies
 import com.denisyordanp.mymoviecatalogue.domain.impl.GetGenresImpl
+import com.denisyordanp.mymoviecatalogue.domain.impl.GetMoviesImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,4 +17,9 @@ abstract class DomainModule {
     abstract fun bindGetGenres(
         getGenresImpl: GetGenresImpl
     ): GetGenres
+
+    @Binds
+    abstract fun bindGetMovies(
+        getMoviesImpl: GetMoviesImpl
+    ): GetMovies
 }
