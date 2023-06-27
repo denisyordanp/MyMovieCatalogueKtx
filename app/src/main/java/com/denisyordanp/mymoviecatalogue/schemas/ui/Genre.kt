@@ -1,4 +1,4 @@
-package com.denisyordanp.mymoviecatalogue.schemas
+package com.denisyordanp.mymoviecatalogue.schemas.ui
 
 import com.denisyordanp.mymoviecatalogue.ui.components.ChipItem
 
