@@ -123,12 +123,12 @@ private fun Preview() {
         MainScreenContent(
             state = MainViewState.idle().copy(
                 genreViewState = GenreViewState.idle().copy(
-                    genres = Dummy.genres
+                    genres = Dummy.getGenres()
                 ),
                 movieViewState = MovieViewState.idle().copy(
-                    movies = Dummy.movies
+                    movies = Dummy.getMovies()
                 ),
-                selectedGenre = Dummy.genres[2]
+                selectedGenre = Dummy.getGenres()[2]
             ),
             onRefresh = { },
             onGenresRetryError = { },

@@ -75,8 +75,8 @@ private fun Chip(
 private fun Preview() {
     MyMovieCatalogueTheme {
         Genres(
-            list = Dummy.genres,
-            selectedGenre = Dummy.genres[3],
+            list = Dummy.getGenres(),
+            selectedGenre = Dummy.getGenres()[3],
             onItemClicked = {}
         )
     }

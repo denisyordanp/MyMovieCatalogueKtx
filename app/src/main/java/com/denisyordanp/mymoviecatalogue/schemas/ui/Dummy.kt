@@ -1,7 +1,7 @@
 package com.denisyordanp.mymoviecatalogue.schemas.ui
 
 object Dummy {
-    val genres = listOf(
+    fun getGenres() = listOf(
         Genre(
             id = 1,
             name = "Action"
@@ -34,36 +34,8 @@ object Dummy {
             id = 8,
             name = "Documentary"
         ),
-        Genre(
-            id = 9,
-            name = "Family"
-        ),
-        Genre(
-            id = 10,
-            name = "Fantasy"
-        ),
-        Genre(
-            id = 11,
-            name = "History"
-        ),
-        Genre(
-            id = 11,
-            name = "Horror"
-        ),
-        Genre(
-            id = 11,
-            name = "Music"
-        ),
-        Genre(
-            id = 11,
-            name = "Romance"
-        ),
-        Genre(
-            id = 11,
-            name = "Mystery"
-        ),
     )
-    val movies = listOf(
+    fun getMovies() = listOf(
         Movie(
             id = 1,
             overview = "Over many missions and against impossible odds, Dom Toretto and his family have outsmarted, out-nerved and outdriven every foe in their path. Now, they confront the most lethal opponent they've ever faced: A terrifying threat emerging from the shadows of the past who's fueled by blood revenge, and who is determined to shatter this family and destroy everything—and everyone—that Dom loves, forever.",
@@ -83,11 +55,11 @@ object Dummy {
             voteCount = 801
         ),
     )
-    val movieDetail = MovieDetail(
+    fun getMovieDetail() = MovieDetail(
         id = 1,
         backdropPath = "/e2Jd0sYMCe6qvMbswGQbM0Mzxt0.jpg",
         budget = 340000000,
-        genres = genres,
+        genres = getGenres(),
         homepage = "https://fastxmovie.com",
         imdbId = "tt5433140",
         originalLanguage = "en",
@@ -106,7 +78,7 @@ object Dummy {
         voteCount = 2040
     )
 
-    val reviews = listOf(
+    fun getReviews() = listOf(
         Review(
             id = "123",
             author = "MSB",
@@ -137,5 +109,26 @@ object Dummy {
             content = "The very definition of moronic. \\r\\n\\r\\nLoud, obnoxious, cheesy characterisations, idiotic back story  and enough bling to make you wince.  \\r\\n\\r\\nThe only vaguely redeeming quality is the polish and money spent on the over the top, at times novel, action scenes but that's not really saying much, in the wider context of awfulness, this represents.\\r\\n\\r\\nI'm not sure who the demographic for this flick is? I would have thought people were more evolved, as a species but well.....\\r\\n\\r\\nIn summary, just dumb, that's really all needs be said.....",
             createdAt = "2023-06-01T22:53:16.005Z"
         )
+    )
+
+    fun getVideos() = listOf(
+        Video(
+            id = "12",
+            key = "xZd6Kxg_MDQ",
+            name = "The Scene that Started the Road to Revenge",
+            publishedAt = "2023-06-23T17:51:17.000Z"
+        ),
+        Video(
+            id = "13",
+            key = "SP_h-m2vmv0",
+            name = "Every Fast & Furious Film Explained | Movies 1-9 Recap | Watch Before Fast X",
+            publishedAt = "2023-06-13T14:20:10.000Z"
+        ),
+        Video(
+            id = "14",
+            key = "A3GBDEE3zxY",
+            name = "Time Moves Fast",
+            publishedAt = "2023-05-26T22:50:56.000Z"
+        ),
     )
 }
