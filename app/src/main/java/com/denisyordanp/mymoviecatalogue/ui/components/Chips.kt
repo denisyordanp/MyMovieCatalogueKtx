@@ -32,8 +32,9 @@ fun Chips(list: List<ChipItem>) {
 @Composable
 private fun Chip(item: ChipItem) {
     Surface(
-        shape = RoundedCornerShape(12.dp),
-        color = MaterialTheme.colors.primary
+        shape = RoundedCornerShape(16.dp),
+        color = MaterialTheme.colors.primary,
+        elevation = 2.dp
     ) {
         Text(
             modifier = Modifier
