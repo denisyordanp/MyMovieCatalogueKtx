@@ -3,6 +3,7 @@ package com.denisyordanp.mymoviecatalogue.ui.screens.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.denisyordanp.mymoviecatalogue.domain.GetGenres
+import com.denisyordanp.mymoviecatalogue.schemas.ui.Genre
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,10 +24,13 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             getGenres(isForce)
                 .map {
-                    _viewState.value.copy(
+                    val currentState = _viewState.value
+                    val selectedGenre = currentState.selectedGenre ?: it.first()
+                    currentState.copy(
                         genres = it,
                         error = null,
-                        isLoading = false
+                        isLoading = false,
+                        selectedGenre = selectedGenre
                     )
                 }.onStart {
                     emit(
@@ -44,6 +48,16 @@ class MainViewModel @Inject constructor(
                 }.collect {
                     _viewState.emit(it)
                 }
+        }
+    }
+
+    fun selectGenre(genre: Genre) {
+        viewModelScope.launch {
+            _viewState.emit(
+                _viewState.value.copy(
+                    selectedGenre = genre
+                )
+            )
         }
     }
 }

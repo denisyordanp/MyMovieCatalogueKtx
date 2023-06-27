@@ -33,7 +33,7 @@ import com.denisyordanp.mymoviecatalogue.schemas.ui.Dummy
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Movie
 import com.denisyordanp.mymoviecatalogue.tools.DateFormat
 import com.denisyordanp.mymoviecatalogue.tools.convertFormat
-import com.denisyordanp.mymoviecatalogue.ui.components.Chips
+import com.denisyordanp.mymoviecatalogue.ui.components.Genres
 import com.denisyordanp.mymoviecatalogue.ui.components.RateText
 import com.denisyordanp.mymoviecatalogue.ui.theme.MyMovieCatalogueTheme
 import com.google.accompanist.swiperefresh.SwipeRefresh
@@ -61,7 +61,13 @@ fun MainScreen(
         ) {
             Column {
                 // Genres
-                Chips(list = viewState.genres)
+                Genres(
+                    list = viewState.genres,
+                    selectedGenre = viewState.selectedGenre,
+                    onItemClicked = {
+                        viewModel.selectGenre(it)
+                    }
+                )
                 Spacer(modifier = Modifier.height(12.dp))
 
                 // Movies

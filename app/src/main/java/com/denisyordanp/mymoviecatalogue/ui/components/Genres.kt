@@ -1,5 +1,6 @@
 package com.denisyordanp.mymoviecatalogue.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -15,25 +16,45 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Dummy
+import com.denisyordanp.mymoviecatalogue.schemas.ui.Genre
 import com.denisyordanp.mymoviecatalogue.ui.theme.MyMovieCatalogueTheme
 
 @Composable
-fun Chips(list: List<ChipItem>) {
+fun Genres(
+    list: List<Genre>,
+    selectedGenre: Genre?,
+    onItemClicked: (genre: Genre) -> Unit
+) {
     LazyRow(
         contentPadding = PaddingValues(8.dp),
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         items(list) {
-            Chip(item = it)
+            Chip(
+                text = it.name,
+                isSelected = it == selectedGenre,
+                onClicked = {
+                    onItemClicked(it)
+                }
+            )
         }
     }
 }
 
 @Composable
-private fun Chip(item: ChipItem) {
+private fun Chip(
+    text: String,
+    isSelected: Boolean,
+    onClicked: () -> Unit
+) {
+    val color = if (isSelected) MaterialTheme.colors.primary else MaterialTheme.colors.secondary
     Surface(
+        modifier = Modifier
+            .clickable {
+                onClicked()
+            },
         shape = RoundedCornerShape(16.dp),
-        color = MaterialTheme.colors.primary,
+        color = color,
         elevation = 2.dp
     ) {
         Text(
@@ -42,20 +63,20 @@ private fun Chip(item: ChipItem) {
                     vertical = 8.dp,
                     horizontal = 12.dp
                 ),
-            text = item.name,
+            text = text,
             fontWeight = FontWeight.Bold
         )
     }
-}
-
-interface ChipItem {
-    val name: String
 }
 
 @Preview
 @Composable
 private fun ChipsPreview() {
     MyMovieCatalogueTheme {
-        Chips(list = Dummy.genres)
+        Genres(
+            list = Dummy.genres,
+            selectedGenre = Dummy.genres.get(3),
+            onItemClicked = {}
+        )
     }
 }
