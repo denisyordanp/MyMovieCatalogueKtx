@@ -1,6 +1,8 @@
 package com.denisyordanp.mymoviecatalogue.schemas
 
+import com.denisyordanp.mymoviecatalogue.ui.components.ChipItem
+
 data class Genre(
     val id: Int,
-    val name: String
-)
+    override val name: String
+): ChipItem
