@@ -25,6 +25,10 @@ android {
                 arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
             }
         }
+
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        buildConfigField "String", "AUTH_KEY", "\"${properties.getProperty('AUTH_KEY')}\""
     }
 
     buildTypes {

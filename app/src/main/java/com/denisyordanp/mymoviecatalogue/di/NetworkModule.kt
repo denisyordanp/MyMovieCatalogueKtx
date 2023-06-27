@@ -29,10 +29,10 @@ object NetworkModule {
             if (NetworkConfig.isDebugMode()) {
                 addNetworkInterceptor(loggingInterceptor)
             }
-            val token = ""
+            val key = NetworkConfig.getAuthKey()
             addInterceptor(Interceptor { chain ->
                 val requestBuilder: okhttp3.Request.Builder = chain.request().newBuilder()
-                requestBuilder.header("Authorization", "Bearer $token")
+                requestBuilder.header("Authorization", "Bearer $key")
                 return@Interceptor chain.proceed(requestBuilder.build())
             })
         }

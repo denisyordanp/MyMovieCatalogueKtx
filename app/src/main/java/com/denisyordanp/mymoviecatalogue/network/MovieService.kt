@@ -10,7 +10,7 @@ interface MovieService {
         @Query("language") language: String = "en",
     ): Genres
 
-    @GET("/discover/movie")
+    @GET("discover/movie")
     suspend fun fetchMovies(
         @Query("language") language: String = "en-US",
         @Query("include_adult") isAdult: Boolean = true,
