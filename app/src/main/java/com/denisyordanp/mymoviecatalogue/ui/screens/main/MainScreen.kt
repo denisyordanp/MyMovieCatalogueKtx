@@ -29,7 +29,6 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.denisyordanp.mymoviecatalogue.R
-import com.denisyordanp.mymoviecatalogue.schemas.ui.Dummy
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Movie
 import com.denisyordanp.mymoviecatalogue.tools.DateFormat
 import com.denisyordanp.mymoviecatalogue.tools.convertFormat
@@ -71,7 +70,7 @@ fun MainScreen(
                 Spacer(modifier = Modifier.height(12.dp))
 
                 // Movies
-                Movies(list = Dummy.movies)
+                Movies(list = viewState.movies)
             }
         }
     }
