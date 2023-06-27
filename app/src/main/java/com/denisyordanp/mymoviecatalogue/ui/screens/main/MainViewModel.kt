@@ -2,8 +2,8 @@ package com.denisyordanp.mymoviecatalogue.ui.screens.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.denisyordanp.mymoviecatalogue.domain.GetGenres
-import com.denisyordanp.mymoviecatalogue.domain.GetMovies
+import com.denisyordanp.mymoviecatalogue.usecase.GetGenres
+import com.denisyordanp.mymoviecatalogue.usecase.GetMovies
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Genre
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -1,4 +1,4 @@
-package com.denisyordanp.mymoviecatalogue.domain
+package com.denisyordanp.mymoviecatalogue.usecase
 
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Movie
 import kotlinx.coroutines.flow.Flow
