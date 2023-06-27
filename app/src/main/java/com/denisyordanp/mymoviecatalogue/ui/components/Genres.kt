@@ -22,8 +22,9 @@ import com.denisyordanp.mymoviecatalogue.ui.theme.MyMovieCatalogueTheme
 @Composable
 fun Genres(
     list: List<Genre>,
-    selectedGenre: Genre?,
-    onItemClicked: (genre: Genre) -> Unit
+    isAllSelected: Boolean = false,
+    selectedGenre: Genre? = null,
+    onItemClicked: ((genre: Genre) -> Unit)? = null
 ) {
     LazyRow(
         contentPadding = PaddingValues(8.dp),
@@ -32,9 +33,9 @@ fun Genres(
         items(list) {
             Chip(
                 text = it.name,
-                isSelected = it == selectedGenre,
+                isSelected = it == selectedGenre || isAllSelected,
                 onClicked = {
-                    onItemClicked(it)
+                    onItemClicked?.invoke(it)
                 }
             )
         }

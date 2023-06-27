@@ -1,7 +1,6 @@
 package com.denisyordanp.mymoviecatalogue.ui.screens.main
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -14,16 +13,13 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.denisyordanp.mymoviecatalogue.R
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Dummy
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Genre
-import com.denisyordanp.mymoviecatalogue.ui.components.GeneralError
+import com.denisyordanp.mymoviecatalogue.ui.components.ErrorContent
 import com.denisyordanp.mymoviecatalogue.ui.components.Genres
 import com.denisyordanp.mymoviecatalogue.ui.components.MovieItem
 import com.denisyordanp.mymoviecatalogue.ui.theme.MyMovieCatalogueTheme
@@ -83,7 +79,6 @@ private fun MainScreenContent(
                     // Genres
                     Genres(
                         list = state.genreViewState.genres,
-                        selectedGenre = state.selectedGenre,
                         onItemClicked = onGenreClicked
                     )
                     Spacer(modifier = Modifier.height(12.dp))
@@ -122,25 +117,6 @@ private fun Movies(
 }
 
 @Composable
-private fun ErrorContent(
-    error: Throwable,
-    onRetryError: () -> Unit
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        GeneralError(
-            title = stringResource(R.string.something_wrong),
-            desc = stringResource(R.string.please_try_again_later),
-            error = error,
-            onRetry = onRetryError
-        )
-    }
-}
-
-@Composable
 @Preview(showSystemUi = true)
 private fun Preview() {
     MyMovieCatalogueTheme {
@@ -154,9 +130,9 @@ private fun Preview() {
                 ),
                 selectedGenre = Dummy.genres[2]
             ),
-            onRefresh = {  },
-            onGenresRetryError = {  },
-            onMoviesRetryError = {  },
+            onRefresh = { },
+            onGenresRetryError = { },
+            onMoviesRetryError = { },
             onGenreClicked = { }
         )
     }

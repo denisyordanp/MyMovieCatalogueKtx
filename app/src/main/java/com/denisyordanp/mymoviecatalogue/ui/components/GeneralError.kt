@@ -1,7 +1,9 @@
 package com.denisyordanp.mymoviecatalogue.ui.components
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
@@ -9,9 +11,30 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.denisyordanp.mymoviecatalogue.R
 import com.denisyordanp.mymoviecatalogue.ui.theme.MyMovieCatalogueTheme
+
+@Composable
+fun ErrorContent(
+    error: Throwable,
+    onRetryError: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        GeneralError(
+            title = stringResource(R.string.something_wrong),
+            desc = stringResource(R.string.please_try_again_later),
+            error = error,
+            onRetry = onRetryError
+        )
+    }
+}
 
 @Composable
 fun GeneralError(
