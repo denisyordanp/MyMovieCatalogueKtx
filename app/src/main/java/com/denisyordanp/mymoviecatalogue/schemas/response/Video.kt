@@ -1,5 +1,7 @@
 package com.denisyordanp.mymoviecatalogue.schemas.response
 
+import com.denisyordanp.mymoviecatalogue.schemas.database.Video as DbVideo
+
 data class Video(
     val id: String,
     val iso31661: String,
@@ -11,4 +13,14 @@ data class Video(
     val site: String,
     val size: Int,
     val type: String
-)
+) {
+    fun toEntity(movieId: Int): DbVideo {
+        return DbVideo(
+            id = id,
+            movieId = movieId,
+            key = key,
+            name = name,
+            publishedAt = publishedAt
+        )
+    }
+}

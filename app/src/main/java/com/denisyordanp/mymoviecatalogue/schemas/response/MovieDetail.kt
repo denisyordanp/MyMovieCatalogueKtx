@@ -1,5 +1,8 @@
 package com.denisyordanp.mymoviecatalogue.schemas.response
 
+import com.denisyordanp.mymoviecatalogue.schemas.database.MovieDetail as DbMovieDetail
+import com.denisyordanp.mymoviecatalogue.schemas.database.Genre as DbGenre
+
 data class MovieDetail(
     val id: Int,
     val backdropPath: String,
@@ -21,4 +24,24 @@ data class MovieDetail(
     val video: Boolean,
     val voteAverage: Double,
     val voteCount: Int
-)
+) {
+    fun toEntity(movieId: Int): Pair<DbMovieDetail, List<DbGenre>> {
+        return Pair(
+            first = DbMovieDetail(
+                id = id,
+                movieId = movieId,
+                backdropPath = backdropPath,
+                budget = budget,
+                overview = overview,
+                posterPath = posterPath,
+                releaseDate = releaseDate,
+                revenue = revenue,
+                tagline = tagline,
+                title = title,
+                voteAverage = voteAverage,
+                voteCount = voteCount
+            ),
+            second = genres.map { it.toEntity() }
+        )
+    }
+}

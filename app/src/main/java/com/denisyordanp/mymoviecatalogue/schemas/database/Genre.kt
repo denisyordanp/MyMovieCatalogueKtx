@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.denisyordanp.mymoviecatalogue.schemas.database.bridge.MovieGenre
 
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Genre as UiGenre
 
@@ -26,6 +27,14 @@ data class Genre(
         return UiGenre(
             id = id,
             name = name
+        )
+    }
+
+    fun toMovieGenre(movieId: Int): MovieGenre {
+        return MovieGenre(
+            id = 0,
+            movieId = movieId,
+            genreId = id
         )
     }
     companion object {
