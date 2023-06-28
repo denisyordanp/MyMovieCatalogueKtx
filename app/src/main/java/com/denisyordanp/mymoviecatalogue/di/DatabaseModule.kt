@@ -4,7 +4,11 @@ import android.content.Context
 import androidx.room.Room
 import com.denisyordanp.mymoviecatalogue.database.AppDatabase
 import com.denisyordanp.mymoviecatalogue.database.GenresDao
+import com.denisyordanp.mymoviecatalogue.database.MovieDetailDao
+import com.denisyordanp.mymoviecatalogue.database.MovieGenreDao
 import com.denisyordanp.mymoviecatalogue.database.MoviesDao
+import com.denisyordanp.mymoviecatalogue.database.ReviewsDao
+import com.denisyordanp.mymoviecatalogue.database.VideosDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,4 +37,16 @@ object DatabaseModule {
 
     @Provides
     fun provideMovieDao(appDatabase: AppDatabase): MoviesDao = appDatabase.movieDao()
+
+    @Provides
+    fun provideMovieDetailDao(appDatabase: AppDatabase): MovieDetailDao = appDatabase.movieDetailDao()
+
+    @Provides
+    fun provideMovieGenreDao(appDatabase: AppDatabase): MovieGenreDao = appDatabase.movieGenreDao()
+
+    @Provides
+    fun provideReviewsDao(appDatabase: AppDatabase): ReviewsDao = appDatabase.reviewsDao()
+
+    @Provides
+    fun provideVideosDao(appDatabase: AppDatabase): VideosDao = appDatabase.videosDao()
 }
