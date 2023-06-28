@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,12 +24,6 @@ class DetailViewModel @Inject constructor(
 ) : ViewModel() {
     private val _viewState = MutableStateFlow(DetailViewState.idle())
     val viewState = _viewState.asStateFlow()
-
-    fun loadAll(movieId: Long, isForce: Boolean) {
-        loadMovieDetail(movieId = movieId, isForce = isForce)
-        loadVideos(movieId = movieId, isForce = isForce)
-        loadReviews(movieId = movieId, isForce = isForce)
-    }
 
     fun loadMovieDetail(movieId: Long, isForce: Boolean) {
         viewModelScope.launch {
@@ -49,9 +44,13 @@ class DetailViewModel @Inject constructor(
                     StackTrace.printStackTrace(it)
                     emit(
                         _viewState.value.copy(
-                            error = it
+                            error = it,
+                            isLoading = false
                         )
                     )
+                }.onEach {
+                    loadVideos(movieId, isForce)
+                    loadReviews(movieId, isForce)
                 }.collect {
                     _viewState.emit(it)
                 }
@@ -85,7 +84,8 @@ class DetailViewModel @Inject constructor(
                     emit(
                         currentState.copy(
                             videosViewState = currentState.videosViewState.copy(
-                                error = it
+                                error = it,
+                                isLoading = false
                             )
                         )
                     )
@@ -122,7 +122,8 @@ class DetailViewModel @Inject constructor(
                     emit(
                         currentState.copy(
                             reviewsViewState = currentState.reviewsViewState.copy(
-                                error = it
+                                error = it,
+                                isLoading = false
                             )
                         )
                     )

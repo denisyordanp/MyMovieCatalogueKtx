@@ -4,7 +4,6 @@ import com.denisyordanp.mymoviecatalogue.schemas.database.Review as DbReview
 
 data class Review(
     val author: String,
-    val authorDetails: AuthorDetail,
     val content: String,
     val createdAt: String,
     val id: String,

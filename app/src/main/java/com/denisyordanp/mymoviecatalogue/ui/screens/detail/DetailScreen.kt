@@ -39,7 +39,7 @@ fun DetailScreen(
     onBackPressed: () -> Unit,
 ) {
     LaunchedEffect(key1 = movieId) {
-        viewModel.loadAll(movieId = movieId, isForce = false)
+        viewModel.loadMovieDetail(movieId = movieId, isForce = false)
     }
     val scope = rememberCoroutineScope()
     val state = viewModel.viewState.collectAsState()
@@ -55,7 +55,7 @@ fun DetailScreen(
             DetailScreenContent(
                 state = state.value,
                 onRefresh = {
-                    viewModel.loadAll(movieId = movieId, isForce = true)
+                    viewModel.loadMovieDetail(movieId = movieId, isForce = true)
                 },
                 onRetryError = {
                     viewModel.loadMovieDetail(movieId = movieId, isForce = true)
@@ -101,7 +101,7 @@ private fun DetailScreenContent(
                     .fillMaxSize(),
                 color = MaterialTheme.colors.background
             ) {
-                val refreshState = rememberSwipeRefreshState(isRefreshing = false)
+                val refreshState = rememberSwipeRefreshState(isRefreshing = state.getIsLoading())
                 SwipeRefresh(
                     state = refreshState,
                     onRefresh = onRefresh

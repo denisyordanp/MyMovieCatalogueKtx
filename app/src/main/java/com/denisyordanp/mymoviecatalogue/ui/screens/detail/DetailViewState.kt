@@ -9,6 +9,7 @@ data class DetailViewState(
     val reviewsViewState: ReviewsViewState,
     val videosViewState: VideosViewState
 ) {
+    fun getIsLoading(): Boolean = isLoading || reviewsViewState.isLoading || videosViewState.isLoading
     companion object {
         fun idle() = DetailViewState(
             movieDetail = null,

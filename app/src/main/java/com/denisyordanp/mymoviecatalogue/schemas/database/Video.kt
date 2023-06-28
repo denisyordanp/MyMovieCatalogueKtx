@@ -15,15 +15,15 @@ import com.denisyordanp.mymoviecatalogue.schemas.ui.Video as UiVideo
     tableName = Video.TABLE_NAME,
     foreignKeys = [
         ForeignKey(
-            entity = Movie::class,
-            parentColumns = [Movie.ID_COLUMN],
-            childColumns = [Movie.ID_COLUMN],
+            entity = MovieDetail::class,
+            parentColumns = [MovieDetail.ID_COLUMN],
+            childColumns = [MovieDetail.ID_COLUMN],
             onDelete = ForeignKey.CASCADE
         )
     ],
     indices = [
         Index(value = [Video.ID_COLUMN]),
-        Index(value = [Movie.ID_COLUMN]),
+        Index(value = [MovieDetail.ID_COLUMN]),
     ]
 )
 data class Video(
@@ -31,7 +31,7 @@ data class Video(
     @ColumnInfo(name = ID_COLUMN)
     val id: String,
 
-    @ColumnInfo(name = Movie.ID_COLUMN)
+    @ColumnInfo(name = MovieDetail.ID_COLUMN)
     val movieId: Long,
 
     @ColumnInfo(name = KEY_COLUMN)
