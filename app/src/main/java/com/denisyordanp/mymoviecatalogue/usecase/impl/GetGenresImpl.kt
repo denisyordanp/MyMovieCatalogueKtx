@@ -16,8 +16,9 @@ class GetGenresImpl @Inject constructor(
             .collect {
                 if (it.isEmpty()) {
                     repository.reloadGenres()
+                } else {
+                    emit(it)
                 }
-                emit(it)
             }
     }
 }

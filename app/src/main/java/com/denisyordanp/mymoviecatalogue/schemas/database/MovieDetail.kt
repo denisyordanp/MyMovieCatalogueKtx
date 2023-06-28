@@ -4,6 +4,13 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.denisyordanp.mymoviecatalogue.tools.DateFormat
+import com.denisyordanp.mymoviecatalogue.tools.NetworkConfig
+import com.denisyordanp.mymoviecatalogue.tools.convertFormat
+import com.denisyordanp.mymoviecatalogue.tools.oneDecimalFormat
+import com.denisyordanp.mymoviecatalogue.tools.thousand
+
+import com.denisyordanp.mymoviecatalogue.schemas.ui.MovieDetail as UiMovieDetail
 
 @Entity(
     tableName = MovieDetail.TABLE_NAME,
@@ -43,6 +50,25 @@ data class MovieDetail(
     @ColumnInfo(name = VOTE_COUNT_COLUMN)
     val voteCount: Long
 ) {
+    fun toUi(genres: List<Genre>): UiMovieDetail {
+        val convertedGenres = genres.map { it.toUi() }
+        return UiMovieDetail(
+            id = id,
+            backdropPath = "${NetworkConfig.getImageBackdropUrl()}${backdropPath}",
+            budget = budget.thousand(),
+            genres = convertedGenres,
+            overview = overview,
+            releaseDate = releaseDate.convertFormat(
+                DateFormat.DEFAULT_FORMAT,
+                DateFormat.DATE_MONTH_YEAR_FORMAT
+            ),
+            revenue = revenue.thousand(),
+            tagline = tagline,
+            title = title,
+            voteAverage = voteAverage.oneDecimalFormat(),
+            voteCount = voteCount
+        )
+    }
     companion object {
         const val TABLE_NAME = "movie_detail"
         const val ID_COLUMN = "id_movie_detail"
