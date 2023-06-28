@@ -91,11 +91,11 @@ private fun ReviewContent(
     } else {
         if (reviewsViewState.reviews.size >= 3) {
             repeat(3) {
-                ReviewItem(review = reviewsViewState.reviews[it])
+                ReviewItem(review = reviewsViewState.reviews[it], isShortedContent = true)
             }
         } else {
             reviewsViewState.reviews.forEach {
-                ReviewItem(review = it)
+                ReviewItem(review = it, isShortedContent = true)
             }
         }
         Spacer(modifier = Modifier.height(4.dp))

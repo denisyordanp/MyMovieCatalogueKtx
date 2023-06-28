@@ -19,7 +19,10 @@ import androidx.constraintlayout.compose.Dimension
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Review
 
 @Composable
-fun ReviewItem(review: Review) {
+fun ReviewItem(
+    review: Review,
+    isShortedContent: Boolean
+) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -59,7 +62,7 @@ fun ReviewItem(review: Review) {
                         width = Dimension.fillToConstraints
                     },
                 text = review.content,
-                maxLines = 3,
+                maxLines = if (isShortedContent) 3 else Int.MAX_VALUE,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.caption
             )

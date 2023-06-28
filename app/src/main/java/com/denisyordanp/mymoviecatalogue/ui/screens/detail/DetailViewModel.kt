@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.denisyordanp.mymoviecatalogue.tools.StackTrace
 import com.denisyordanp.mymoviecatalogue.usecase.GetMovieDetail
+import com.denisyordanp.mymoviecatalogue.usecase.GetReviews
 import com.denisyordanp.mymoviecatalogue.usecase.GetVideos
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,6 +19,7 @@ import javax.inject.Inject
 class DetailViewModel @Inject constructor(
     private val getMovieDetail: GetMovieDetail,
     private val getVideos: GetVideos,
+    private val getReviews: GetReviews
 ) : ViewModel() {
     private val _viewState = MutableStateFlow(DetailViewState.idle())
     val viewState = _viewState.asStateFlow()
@@ -25,6 +27,7 @@ class DetailViewModel @Inject constructor(
     fun loadAll(movieId: Long, isForce: Boolean) {
         loadMovieDetail(movieId = movieId, isForce = isForce)
         loadVideos(movieId = movieId, isForce = isForce)
+        loadReviews(movieId = movieId, isForce = isForce)
     }
 
     fun loadMovieDetail(movieId: Long, isForce: Boolean) {
@@ -82,6 +85,43 @@ class DetailViewModel @Inject constructor(
                     emit(
                         currentState.copy(
                             videosViewState = currentState.videosViewState.copy(
+                                error = it
+                            )
+                        )
+                    )
+                }.collect {
+                    _viewState.emit(it)
+                }
+        }
+    }
+
+    fun loadReviews(movieId: Long, isForce: Boolean) {
+        viewModelScope.launch {
+            getReviews(movieId, isForce)
+                .map {
+                    val currentState = _viewState.value
+                    currentState.copy(
+                        reviewsViewState = currentState.reviewsViewState.copy(
+                            reviews = it,
+                            isLoading = false,
+                            error = null
+                        )
+                    )
+                }.onStart {
+                    val currentState = _viewState.value
+                    emit(
+                        currentState.copy(
+                            reviewsViewState = currentState.reviewsViewState.copy(
+                                isLoading = true
+                            )
+                        )
+                    )
+                }.catch {
+                    StackTrace.printStackTrace(it)
+                    val currentState = _viewState.value
+                    emit(
+                        currentState.copy(
+                            reviewsViewState = currentState.reviewsViewState.copy(
                                 error = it
                             )
                         )

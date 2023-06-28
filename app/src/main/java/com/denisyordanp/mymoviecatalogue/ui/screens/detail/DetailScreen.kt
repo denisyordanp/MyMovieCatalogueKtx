@@ -3,14 +3,21 @@ package com.denisyordanp.mymoviecatalogue.ui.screens.detail
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Dummy
 import com.denisyordanp.mymoviecatalogue.ui.components.ErrorContent
@@ -18,10 +25,13 @@ import com.denisyordanp.mymoviecatalogue.ui.components.TopBar
 import com.denisyordanp.mymoviecatalogue.ui.screens.detail.components.Body
 import com.denisyordanp.mymoviecatalogue.ui.screens.detail.components.Footer
 import com.denisyordanp.mymoviecatalogue.ui.screens.detail.components.Header
+import com.denisyordanp.mymoviecatalogue.ui.screens.detail.components.ReviewBottomSheet
 import com.denisyordanp.mymoviecatalogue.ui.theme.MyMovieCatalogueTheme
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DetailScreen(
     movieId: Long,
@@ -31,22 +41,39 @@ fun DetailScreen(
     LaunchedEffect(key1 = movieId) {
         viewModel.loadAll(movieId = movieId, isForce = false)
     }
+    val scope = rememberCoroutineScope()
     val state = viewModel.viewState.collectAsState()
+    val sheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
 
-    DetailScreenContent(
-        state = state.value,
-        onRefresh = {
-            viewModel.loadAll(movieId = movieId, isForce = true)
+    ModalBottomSheetLayout(
+        sheetShape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
+        sheetState = sheetState,
+        sheetContent = {
+            ReviewBottomSheet(reviews = state.value.reviewsViewState.reviews)
         },
-        onRetryError = {
-            viewModel.loadMovieDetail(movieId = movieId, isForce = true)
-        },
-        onBackPressed = onBackPressed,
-        onMoreReviewsClicked = {},
-        onVideosRetry = {
-            viewModel.loadVideos(movieId = movieId, isForce = true)
-        },
-        onReviewRetry = {}
+        content = {
+            DetailScreenContent(
+                state = state.value,
+                onRefresh = {
+                    viewModel.loadAll(movieId = movieId, isForce = true)
+                },
+                onRetryError = {
+                    viewModel.loadMovieDetail(movieId = movieId, isForce = true)
+                },
+                onBackPressed = onBackPressed,
+                onMoreReviewsClicked = {
+                    scope.launch {
+                        sheetState.show()
+                    }
+                },
+                onVideosRetry = {
+                    viewModel.loadVideos(movieId = movieId, isForce = true)
+                },
+                onReviewRetry = {
+                    viewModel.loadReviews(movieId = movieId, isForce = true)
+                }
+            )
+        }
     )
 }
 
@@ -60,7 +87,6 @@ private fun DetailScreenContent(
     onVideosRetry: () -> Unit,
     onReviewRetry: () -> Unit,
 ) {
-
     Scaffold(
         topBar = {
             TopBar(

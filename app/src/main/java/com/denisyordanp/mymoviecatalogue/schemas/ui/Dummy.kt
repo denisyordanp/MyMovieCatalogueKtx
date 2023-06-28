@@ -88,7 +88,7 @@ object Dummy {
         videos = getVideos()
     )
 
-    private fun getReviews() = listOf(
+    fun getReviews() = listOf(
         Review(
             id = "123",
             author = "MSB",
