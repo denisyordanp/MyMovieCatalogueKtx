@@ -25,11 +25,10 @@ data class MovieDetail(
     val voteAverage: Double,
     val voteCount: Long
 ) {
-    fun toEntity(movieId: Long): Pair<DbMovieDetail, List<DbGenre>> {
+    fun toEntity(): Pair<DbMovieDetail, List<DbGenre>> {
         return Pair(
             first = DbMovieDetail(
                 id = id,
-                movieId = movieId,
                 backdropPath = backdropPath,
                 budget = budget,
                 overview = overview,

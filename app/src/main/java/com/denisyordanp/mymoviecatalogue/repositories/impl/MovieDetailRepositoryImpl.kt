@@ -18,7 +18,7 @@ class MovieDetailRepositoryImpl @Inject constructor(
     private val movieGenre: MovieGenreDao,
 ) : MovieDetailRepository {
     override suspend fun reloadMovieDetail(movieId: Long) {
-        val converted = service.fetchMovieDetail(movieId).toEntity(movieId)
+        val converted = service.fetchMovieDetail(movieId).toEntity()
         val genres = converted.second
         val movieGenres = genres.map { it.toMovieGenre(movieId) }
 

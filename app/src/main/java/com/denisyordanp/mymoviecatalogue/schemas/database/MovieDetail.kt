@@ -2,32 +2,19 @@ package com.denisyordanp.mymoviecatalogue.schemas.database
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
     tableName = MovieDetail.TABLE_NAME,
-    foreignKeys = [
-        ForeignKey(
-            entity = Movie::class,
-            parentColumns = [Movie.ID_COLUMN],
-            childColumns = [Movie.ID_COLUMN],
-            onDelete = ForeignKey.CASCADE
-        )
-    ],
     indices = [
-        Index(value = [MovieDetail.ID_COLUMN]),
-        Index(value = [Movie.ID_COLUMN]),
+        Index(value = [MovieDetail.ID_COLUMN])
     ]
 )
 data class MovieDetail(
     @PrimaryKey
     @ColumnInfo(name = ID_COLUMN)
     val id: Long,
-
-    @ColumnInfo(name = Movie.ID_COLUMN)
-    val movieId: Long,
 
     @ColumnInfo(name = BACKDROP_COLUMN)
     val backdropPath: String,
