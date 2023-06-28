@@ -4,6 +4,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
+import androidx.room.PrimaryKey
+
+import com.denisyordanp.mymoviecatalogue.schemas.ui.Video as UiVideo
 
 @Entity(
     tableName = Video.TABLE_NAME,
@@ -21,6 +24,7 @@ import androidx.room.Index
     ]
 )
 data class Video(
+    @PrimaryKey
     @ColumnInfo(name = ID_COLUMN)
     val id: String,
 
@@ -36,6 +40,15 @@ data class Video(
     @ColumnInfo(name = PUBLISH_COLUMN)
     val publishedAt: String
 ) {
+    fun toUi(): UiVideo {
+        return UiVideo(
+            id = id,
+            key = key,
+            name = name,
+            publishedAt = publishedAt
+        )
+    }
+
     companion object {
         const val TABLE_NAME = "video"
         const val ID_COLUMN = "id_video"

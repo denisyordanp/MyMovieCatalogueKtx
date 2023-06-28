@@ -4,6 +4,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
+import androidx.room.PrimaryKey
+
+import com.denisyordanp.mymoviecatalogue.schemas.ui.Review as UiReview
 
 @Entity(
     tableName = Review.TABLE_NAME,
@@ -21,6 +24,7 @@ import androidx.room.Index
     ]
 )
 data class Review(
+    @PrimaryKey
     @ColumnInfo(name = ID_COLUMN)
     val id: String,
 
@@ -36,6 +40,15 @@ data class Review(
     @ColumnInfo(name = CREATE_COLUMN)
     val createdAt: String
 ) {
+    fun toUi(): UiReview {
+        return UiReview(
+            id = id,
+            author = author,
+            content = content,
+            createdAt = createdAt
+        )
+    }
+
     companion object {
         const val TABLE_NAME = "review"
         const val ID_COLUMN = "id_review"

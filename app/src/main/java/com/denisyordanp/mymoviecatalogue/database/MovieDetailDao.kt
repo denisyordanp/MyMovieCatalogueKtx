@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import com.denisyordanp.mymoviecatalogue.schemas.database.Movie
 import com.denisyordanp.mymoviecatalogue.schemas.database.MovieDetail
 import com.denisyordanp.mymoviecatalogue.schemas.database.bridge.MovieWithGenres
 import kotlinx.coroutines.flow.Flow
@@ -14,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 interface MovieDetailDao {
 
     @Transaction
-    @Query("SELECT * FROM '${MovieDetail.TABLE_NAME}' WHERE ${Movie.ID_COLUMN} = :movieId")
+    @Query("SELECT * FROM '${MovieDetail.TABLE_NAME}' WHERE ${MovieDetail.ID_COLUMN} = :movieId")
     fun getMovieDetail(movieId: Int): Flow<MovieWithGenres>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
