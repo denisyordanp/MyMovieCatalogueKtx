@@ -79,6 +79,7 @@ dependencies {
     implementation "androidx.navigation:navigation-compose:$navigationComposeVersion"
     implementation "androidx.hilt:hilt-navigation-compose:$hiltNavigationComposeVersion"
     implementation "com.google.accompanist:accompanist-swiperefresh:$accompanistVersion"
+    implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion"
 
     // Network
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"

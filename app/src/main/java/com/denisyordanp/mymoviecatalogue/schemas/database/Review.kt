@@ -5,6 +5,8 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.denisyordanp.mymoviecatalogue.tools.DateFormat
+import com.denisyordanp.mymoviecatalogue.tools.convertFormat
 
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Review as UiReview
 
@@ -45,7 +47,10 @@ data class Review(
             id = id,
             author = author,
             content = content,
-            createdAt = createdAt
+            createdAt = createdAt.convertFormat(
+                from = DateFormat.DATE_FULL_FORMAT,
+                to = DateFormat.DATE_MONTH_YEAR_FORMAT
+            )
         )
     }
 
