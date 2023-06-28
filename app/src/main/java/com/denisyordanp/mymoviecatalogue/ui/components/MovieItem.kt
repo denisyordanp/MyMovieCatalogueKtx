@@ -2,7 +2,8 @@ package com.denisyordanp.mymoviecatalogue.ui.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
@@ -12,12 +13,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import coil.compose.AsyncImage
 import com.denisyordanp.mymoviecatalogue.R
+import com.denisyordanp.mymoviecatalogue.schemas.ui.Dummy
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Movie
+import com.denisyordanp.mymoviecatalogue.ui.theme.MyMovieCatalogueTheme
 
 @Composable
 fun MovieItem(
@@ -28,22 +32,21 @@ fun MovieItem(
     Card(
         modifier = modifier
             .fillMaxWidth()
+            .height(160.dp)
             .clickable {
                 onClickItem(movie)
             },
         elevation = 2.dp,
         shape = RoundedCornerShape(12.dp)
     ) {
-        ConstraintLayout(
-            modifier = Modifier.size(width = 100.dp, height = 160.dp)
-        ) {
+        ConstraintLayout {
             val (poster, title, release, overview, rate) = createRefs()
             AsyncImage(
                 modifier = Modifier
                     .constrainAs(poster) {
                         linkTo(top = parent.top, bottom = parent.bottom)
                         start.linkTo(parent.start)
-                    },
+                    }.width(100.dp),
                 model = movie.posterPath,
                 contentDescription = null,
                 placeholder = painterResource(id = R.drawable.baseline_image_24),
@@ -119,5 +122,16 @@ fun MovieItem(
                 from = movie.voteCount.toString()
             )
         }
+    }
+}
+
+@Composable
+@Preview
+private fun Preview() {
+    MyMovieCatalogueTheme {
+        MovieItem(
+            movie = Dummy.getMovies().first(),
+            onClickItem = {}
+        )
     }
 }
