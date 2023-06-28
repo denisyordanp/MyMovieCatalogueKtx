@@ -1,5 +1,6 @@
 package com.denisyordanp.mymoviecatalogue.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -25,11 +26,15 @@ import com.denisyordanp.mymoviecatalogue.schemas.ui.Video
 import com.denisyordanp.mymoviecatalogue.ui.theme.MyMovieCatalogueTheme
 
 @Composable
-fun VideoItem(video: Video) {
+fun VideoItem(
+    video: Video,
+    onVideoClicked: (video: Video) -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .height(100.dp)
+            .clickable { onVideoClicked(video) }
             .padding(bottom = 3.dp),
         elevation = 1.dp,
         shape = RoundedCornerShape(16.dp)
@@ -91,6 +96,9 @@ fun VideoItem(video: Video) {
 @Preview
 private fun Preview() {
     MyMovieCatalogueTheme {
-        VideoItem(video = Dummy.getVideos()[1])
+        VideoItem(
+            video = Dummy.getVideos()[1],
+            onVideoClicked = {}
+        )
     }
 }

@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Dummy
+import com.denisyordanp.mymoviecatalogue.schemas.ui.Video
 import com.denisyordanp.mymoviecatalogue.ui.components.ErrorContent
 import com.denisyordanp.mymoviecatalogue.ui.components.TopBar
 import com.denisyordanp.mymoviecatalogue.ui.screens.detail.components.Body
@@ -37,6 +38,7 @@ fun DetailScreen(
     movieId: Long,
     viewModel: DetailViewModel = hiltViewModel(),
     onBackPressed: () -> Unit,
+    onVideoClicked: (video: Video) -> Unit
 ) {
     LaunchedEffect(key1 = movieId) {
         viewModel.loadMovieDetail(movieId = movieId, isForce = false)
@@ -71,7 +73,8 @@ fun DetailScreen(
                 },
                 onReviewRetry = {
                     viewModel.loadReviews(movieId = movieId, isForce = true)
-                }
+                },
+                onVideoClicked = onVideoClicked
             )
         }
     )
@@ -86,6 +89,7 @@ private fun DetailScreenContent(
     onMoreReviewsClicked: () -> Unit,
     onVideosRetry: () -> Unit,
     onReviewRetry: () -> Unit,
+    onVideoClicked: (video: Video) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -127,7 +131,8 @@ private fun DetailScreenContent(
                                         videosViewState = state.videosViewState,
                                         onMoreReviewClicked = onMoreReviewsClicked,
                                         onVideosRetry = onVideosRetry,
-                                        onReviewRetry = onReviewRetry
+                                        onReviewRetry = onReviewRetry,
+                                        onVideoClicked = onVideoClicked
                                     )
                                 }
                             }
@@ -150,7 +155,8 @@ private fun Preview() {
             onBackPressed = {},
             onMoreReviewsClicked = {},
             onVideosRetry = {},
-            onReviewRetry = {}
+            onReviewRetry = {},
+            onVideoClicked = {}
         )
     }
 }

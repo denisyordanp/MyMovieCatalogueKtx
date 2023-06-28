@@ -1,5 +1,8 @@
 package com.denisyordanp.mymoviecatalogue.ui
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -18,6 +21,7 @@ import com.denisyordanp.mymoviecatalogue.ui.screens.main.MainScreen
 import com.denisyordanp.mymoviecatalogue.ui.theme.MyMovieCatalogueTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -52,6 +56,9 @@ class MainActivity : ComponentActivity() {
                                 movieId = movieId,
                                 onBackPressed = {
                                     mainNavController.navigateUp()
+                                },
+                                onVideoClicked = {
+                                    handleYoutubeIntent(it.key)
                                 }
                             )
                         }
@@ -74,6 +81,19 @@ class MainActivity : ComponentActivity() {
                 color = Color.Black,
                 darkIcons = false,
             )
+        }
+    }
+
+    private fun handleYoutubeIntent(key: String) {
+        val appIntent = Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:$key"))
+        val webIntent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse("http://www.youtube.com/watch?v=$key")
+        )
+        try {
+            startActivity(appIntent)
+        } catch (ex: ActivityNotFoundException) {
+            startActivity(webIntent)
         }
     }
 }

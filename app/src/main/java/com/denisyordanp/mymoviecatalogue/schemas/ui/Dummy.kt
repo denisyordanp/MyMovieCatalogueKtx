@@ -126,19 +126,22 @@ object Dummy {
             id = "12",
             thumbnailPath = "xZd6Kxg_MDQ",
             name = "The Scene that Started the Road to Revenge",
-            publishedAt = "2023-06-23T17:51:17.000Z"
+            publishedAt = "2023-06-23T17:51:17.000Z",
+            key = "xZd6Kxg_MDQ"
         ),
         Video(
             id = "13",
             thumbnailPath = "SP_h-m2vmv0",
             name = "Every Fast & Furious Film Explained | Movies 1-9 Recap | Watch Before Fast X",
-            publishedAt = "2023-06-13T14:20:10.000Z"
+            publishedAt = "2023-06-13T14:20:10.000Z",
+            key = "xZd6Kxg_MDQ"
         ),
         Video(
             id = "14",
             thumbnailPath = "A3GBDEE3zxY",
             name = "Time Moves Fast",
-            publishedAt = "2023-05-26T22:50:56.000Z"
+            publishedAt = "2023-05-26T22:50:56.000Z",
+            key = "xZd6Kxg_MDQ"
         ),
     )
 }

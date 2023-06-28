@@ -21,6 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Dummy
+import com.denisyordanp.mymoviecatalogue.schemas.ui.Video
 import com.denisyordanp.mymoviecatalogue.ui.components.ErrorContent
 import com.denisyordanp.mymoviecatalogue.ui.components.ReviewItem
 import com.denisyordanp.mymoviecatalogue.ui.components.VideoItem
@@ -36,11 +37,13 @@ fun Footer(
     onMoreReviewClicked: () -> Unit,
     onVideosRetry: () -> Unit,
     onReviewRetry: () -> Unit,
+    onVideoClicked: (video: Video) -> Unit
 ) {
     Column {
         Videos(
             videosViewState = videosViewState,
-            onRetryError = onVideosRetry
+            onRetryError = onVideosRetry,
+            onVideoClicked = onVideoClicked
         )
         Reviews(
             reviewsViewState = reviewsViewState,
@@ -126,7 +129,8 @@ private fun ReviewContent(
 @Composable
 private fun Videos(
     videosViewState: VideosViewState,
-    onRetryError: () -> Unit
+    onRetryError: () -> Unit,
+    onVideoClicked: (video: Video) -> Unit
 ) {
     if (videosViewState.error != null || videosViewState.videos.isNotEmpty()) {
         Column(
@@ -147,7 +151,10 @@ private fun Videos(
                 )
             } else {
                 videosViewState.videos.forEach {
-                    VideoItem(video = it)
+                    VideoItem(
+                        video = it,
+                        onVideoClicked = onVideoClicked
+                    )
                 }
             }
         }
@@ -163,7 +170,8 @@ private fun Preview() {
             videosViewState = Dummy.getVideoViewState(),
             onMoreReviewClicked = {},
             onVideosRetry = {},
-            onReviewRetry = {}
+            onReviewRetry = {},
+            onVideoClicked = {}
         )
     }
 }

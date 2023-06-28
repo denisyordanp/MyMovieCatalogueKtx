@@ -51,7 +51,8 @@ data class Video(
             publishedAt = publishedAt.convertFormat(
                 from = DateFormat.DATE_FULL_FORMAT,
                 to = DateFormat.DATE_MONTH_YEAR_FORMAT
-            )
+            ),
+            key = key
         )
     }
 
