@@ -24,16 +24,16 @@ import androidx.room.PrimaryKey
 data class MovieDetail(
     @PrimaryKey
     @ColumnInfo(name = ID_COLUMN)
-    val id: Int,
+    val id: Long,
 
     @ColumnInfo(name = Movie.ID_COLUMN)
-    val movieId: Int,
+    val movieId: Long,
 
     @ColumnInfo(name = BACKDROP_COLUMN)
     val backdropPath: String,
 
     @ColumnInfo(name = BUDGET_COLUMN)
-    val budget: Int,
+    val budget: Long,
 
     @ColumnInfo(name = OVERVIEW_COLUMN)
     val overview: String,
@@ -45,7 +45,7 @@ data class MovieDetail(
     val releaseDate: String,
 
     @ColumnInfo(name = REVENUE_COLUMN)
-    val revenue: Int,
+    val revenue: Long,
 
     @ColumnInfo(name = TAGLINE_COLUMN)
     val tagline: String,
@@ -57,7 +57,7 @@ data class MovieDetail(
     val voteAverage: Double,
 
     @ColumnInfo(name = VOTE_COUNT_COLUMN)
-    val voteCount: Int
+    val voteCount: Long
 ) {
     companion object {
         const val TABLE_NAME = "movie_detail"

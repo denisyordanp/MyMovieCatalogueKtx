@@ -12,7 +12,7 @@ data class Review(
     val url: String
 ) {
 
-    fun toEntity(movieId: Int): DbReview {
+    fun toEntity(movieId: Long): DbReview {
         return DbReview(
             id = id,
             movieId = movieId,

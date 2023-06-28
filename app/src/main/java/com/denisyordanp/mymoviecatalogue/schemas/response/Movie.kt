@@ -3,7 +3,7 @@ package com.denisyordanp.mymoviecatalogue.schemas.response
 import com.denisyordanp.mymoviecatalogue.schemas.database.Movie as DbMovie
 
 data class Movie(
-    val id: Int,
+    val id: Long,
     val adult: Boolean,
     val backdropPath: String,
     val genreIds: List<Int>,
@@ -16,9 +16,9 @@ data class Movie(
     val title: String,
     val video: Boolean,
     val voteAverage: Double,
-    val voteCount: Int
+    val voteCount: Long
 ) {
-    fun toEntity(genreId: Int): DbMovie {
+    fun toEntity(genreId: Long): DbMovie {
         return DbMovie(
             id = id,
             overview = overview,

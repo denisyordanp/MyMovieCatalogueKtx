@@ -10,7 +10,7 @@ data class Reviews(
     val totalResults: Int
 ) {
 
-    fun toEntity(movieId: Int): List<DbReview> {
+    fun toEntity(movieId: Long): List<DbReview> {
         return results.map {
             it.toEntity(movieId)
         }

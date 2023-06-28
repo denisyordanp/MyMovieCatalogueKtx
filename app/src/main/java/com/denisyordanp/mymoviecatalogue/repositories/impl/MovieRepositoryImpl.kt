@@ -13,12 +13,12 @@ class MovieRepositoryImpl @Inject constructor(
     private val movieDao: MoviesDao
 ) : MovieRepository {
 
-    override suspend fun reloadMovies(genreId: Int) {
+    override suspend fun reloadMovies(genreId: Long) {
         val movies = service.fetchMovies(genre = genreId).toEntities(genreId)
         movieDao.insertMovies(movies)
     }
 
-    override fun getMovies(genreId: Int): Flow<List<Movie>> {
+    override fun getMovies(genreId: Long): Flow<List<Movie>> {
         return movieDao.getMovies(genreId).map { movies ->
             movies.map { movie ->
                 movie.toUi()

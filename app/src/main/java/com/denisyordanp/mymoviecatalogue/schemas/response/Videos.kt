@@ -6,7 +6,7 @@ data class Videos(
     val id: Int,
     val results: List<Video>
 ) {
-    fun toEntity(movieId: Int): List<DbVideo> {
+    fun toEntity(movieId: Long): List<DbVideo> {
         return results.map { it.toEntity(movieId) }
     }
 }

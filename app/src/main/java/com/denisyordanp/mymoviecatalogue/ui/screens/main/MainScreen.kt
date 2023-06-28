@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Dummy
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Genre
+import com.denisyordanp.mymoviecatalogue.schemas.ui.Movie
 import com.denisyordanp.mymoviecatalogue.ui.components.ErrorContent
 import com.denisyordanp.mymoviecatalogue.ui.components.Genres
 import com.denisyordanp.mymoviecatalogue.ui.components.MovieItem
@@ -29,7 +30,8 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @Composable
 fun MainScreen(
-    viewModel: MainViewModel = hiltViewModel()
+    viewModel: MainViewModel = hiltViewModel(),
+    onMovieClicked: (movie: Movie) -> Unit
 ) {
     LaunchedEffect(key1 = Unit) {
         viewModel.loadGenres(false)
@@ -49,7 +51,8 @@ fun MainScreen(
         },
         onGenreClicked = {
             viewModel.selectGenre(it)
-        }
+        },
+        onMovieClicked = onMovieClicked
     )
 }
 
@@ -60,6 +63,7 @@ private fun MainScreenContent(
     onGenresRetryError: () -> Unit,
     onMoviesRetryError: () -> Unit,
     onGenreClicked: (genre: Genre) -> Unit,
+    onMovieClicked: (movie: Movie) -> Unit
 ) {
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -81,6 +85,7 @@ private fun MainScreenContent(
                     // Genres
                     Genres(
                         list = state.genreViewState.genres,
+                        selectedGenre = state.selectedGenre,
                         onItemClicked = onGenreClicked
                     )
                     Spacer(modifier = Modifier.height(12.dp))
@@ -88,7 +93,8 @@ private fun MainScreenContent(
                     // Movies
                     Movies(
                         state = state.movieViewState,
-                        onRetryError = onMoviesRetryError
+                        onRetryError = onMoviesRetryError,
+                        onClickItem = onMovieClicked
                     )
                 }
             }
@@ -99,7 +105,8 @@ private fun MainScreenContent(
 @Composable
 private fun Movies(
     state: MovieViewState,
-    onRetryError: () -> Unit
+    onRetryError: () -> Unit,
+    onClickItem: (movie: Movie) -> Unit
 ) {
     if (state.error != null) {
         ErrorContent(
@@ -113,7 +120,10 @@ private fun Movies(
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
         ) {
             items(state.movies) { movie ->
-                MovieItem(movie = movie)
+                MovieItem(
+                    movie = movie,
+                    onClickItem = onClickItem
+                )
             }
         }
     }
@@ -136,7 +146,8 @@ private fun Preview() {
             onRefresh = { },
             onGenresRetryError = { },
             onMoviesRetryError = { },
-            onGenreClicked = { }
+            onGenreClicked = { },
+            onMovieClicked = {}
         )
     }
 }

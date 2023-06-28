@@ -29,10 +29,10 @@ import com.denisyordanp.mymoviecatalogue.schemas.ui.Movie as UiMovie
 data class Movie(
     @PrimaryKey
     @ColumnInfo(name = ID_COLUMN)
-    val id: Int,
+    val id: Long,
 
     @ColumnInfo(name = Genre.ID_COLUMN)
-    val genreId: Int,
+    val genreId: Long,
 
     @ColumnInfo(name = OVERVIEW_COLUMN)
     val overview: String,
@@ -50,7 +50,7 @@ data class Movie(
     val voteAverage: Double,
 
     @ColumnInfo(name = VOTE_COUNT_COLUMN)
-    val voteCount: Int
+    val voteCount: Long
 ) {
     fun toUi(): UiMovie {
         return UiMovie(

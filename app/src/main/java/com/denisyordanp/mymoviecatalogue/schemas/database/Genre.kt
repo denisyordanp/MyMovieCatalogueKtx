@@ -17,7 +17,7 @@ import com.denisyordanp.mymoviecatalogue.schemas.ui.Genre as UiGenre
 data class Genre(
     @PrimaryKey
     @ColumnInfo(name = ID_COLUMN)
-    val id: Int,
+    val id: Long,
 
     @ColumnInfo(name = NAME_COLUMN)
     val name: String
@@ -30,7 +30,7 @@ data class Genre(
         )
     }
 
-    fun toMovieGenre(movieId: Int): MovieGenre {
+    fun toMovieGenre(movieId: Long): MovieGenre {
         return MovieGenre(
             id = 0,
             movieId = movieId,

@@ -22,25 +22,25 @@ interface MovieService {
         @Query("include_video") isVideo: Boolean = false,
         @Query("page") page: Int = 1,
         @Query("sort_by") sortBy: String = "popularity.desc",
-        @Query("with_genres") genre: Int,
+        @Query("with_genres") genre: Long,
     ): Movies
 
     @GET("movie/{movie_id}")
     suspend fun fetchMovieDetail(
-        @Path(value = "movie_id", encoded = true) movieId: Int,
+        @Path(value = "movie_id", encoded = true) movieId: Long,
         @Query("language") language: String = "en-US",
     ): MovieDetail
 
     @GET("movie/{movie_id}/reviews")
     suspend fun fetchReviews(
-        @Path(value = "movie_id", encoded = true) movieId: Int,
+        @Path(value = "movie_id", encoded = true) movieId: Long,
         @Query("language") language: String = "en-US",
         @Query("page") page: Int = 1,
     ): Reviews
 
     @GET("movie/{movie_id}/videos")
     suspend fun fetchVideos(
-        @Path(value = "movie_id", encoded = true) movieId: Int,
+        @Path(value = "movie_id", encoded = true) movieId: Long,
         @Query("language") language: String = "en-US",
     ): Videos
 }

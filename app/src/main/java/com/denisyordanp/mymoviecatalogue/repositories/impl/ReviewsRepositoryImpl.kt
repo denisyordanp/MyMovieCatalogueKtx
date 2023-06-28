@@ -12,13 +12,13 @@ class ReviewsRepositoryImpl @Inject constructor(
     private val service: MovieService,
     private val reviewsDao: ReviewsDao,
 ) : ReviewsRepository {
-    override suspend fun reloadReviews(movieId: Int) {
+    override suspend fun reloadReviews(movieId: Long) {
         val reviews = service.fetchReviews(movieId).toEntity(movieId)
 
         reviewsDao.insertReviews(reviews)
     }
 
-    override fun getReviews(movieId: Int): Flow<List<Review>> {
+    override fun getReviews(movieId: Long): Flow<List<Review>> {
         return reviewsDao.getReviews(movieId).map { reviews ->
             reviews.map { review ->
                 review.toUi()

@@ -29,7 +29,7 @@ data class Video(
     val id: String,
 
     @ColumnInfo(name = Movie.ID_COLUMN)
-    val movieId: Int,
+    val movieId: Long,
 
     @ColumnInfo(name = KEY_COLUMN)
     val key: String,

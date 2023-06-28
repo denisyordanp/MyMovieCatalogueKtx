@@ -1,5 +1,6 @@
 package com.denisyordanp.mymoviecatalogue.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,22 +22,28 @@ import com.denisyordanp.mymoviecatalogue.schemas.ui.Movie
 @Composable
 fun MovieItem(
     modifier: Modifier = Modifier,
-    movie: Movie
+    movie: Movie,
+    onClickItem: (movie: Movie) -> Unit
 ) {
     Card(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable {
+                onClickItem(movie)
+            },
         elevation = 2.dp,
         shape = RoundedCornerShape(12.dp)
     ) {
-        ConstraintLayout {
+        ConstraintLayout(
+            modifier = Modifier.size(width = 100.dp, height = 160.dp)
+        ) {
             val (poster, title, release, overview, rate) = createRefs()
             AsyncImage(
                 modifier = Modifier
                     .constrainAs(poster) {
                         linkTo(top = parent.top, bottom = parent.bottom)
                         start.linkTo(parent.start)
-                    }
-                    .size(width = 100.dp, height = 150.dp),
+                    },
                 model = movie.posterPath,
                 contentDescription = null,
                 placeholder = painterResource(id = R.drawable.baseline_image_24),
@@ -94,7 +101,12 @@ fun MovieItem(
             RateText(
                 modifier = Modifier
                     .constrainAs(rate) {
-                        top.linkTo(overview.bottom, margin = 12.dp)
+                        linkTo(
+                            bottom = parent.bottom,
+                            top = overview.bottom,
+                            bias = 1f,
+                            bottomMargin = 4.dp
+                        )
                         linkTo(
                             start = poster.end,
                             end = parent.end,

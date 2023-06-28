@@ -4,9 +4,9 @@ import com.denisyordanp.mymoviecatalogue.schemas.database.MovieDetail as DbMovie
 import com.denisyordanp.mymoviecatalogue.schemas.database.Genre as DbGenre
 
 data class MovieDetail(
-    val id: Int,
+    val id: Long,
     val backdropPath: String,
-    val budget: Int,
+    val budget: Long,
     val genres: List<Genre>,
     val homepage: String,
     val imdbId: String,
@@ -16,16 +16,16 @@ data class MovieDetail(
     val popularity: Double,
     val posterPath: String,
     val releaseDate: String,
-    val revenue: Int,
+    val revenue: Long,
     val runtime: Int,
     val status: String,
     val tagline: String,
     val title: String,
     val video: Boolean,
     val voteAverage: Double,
-    val voteCount: Int
+    val voteCount: Long
 ) {
-    fun toEntity(movieId: Int): Pair<DbMovieDetail, List<DbGenre>> {
+    fun toEntity(movieId: Long): Pair<DbMovieDetail, List<DbGenre>> {
         return Pair(
             first = DbMovieDetail(
                 id = id,

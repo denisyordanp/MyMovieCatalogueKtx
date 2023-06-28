@@ -24,10 +24,25 @@ class MainActivity : ComponentActivity() {
                     startDestination = MainDestinations.MAIN_SCREEN
                 ) {
                     composable(route = MainDestinations.MAIN_SCREEN) {
-                        MainScreen()
+                        MainScreen(
+                            onMovieClicked = {
+                                mainNavController.navigate(MainDestinations.detailScreen(it.id))
+                            }
+                        )
                     }
-                    composable(route = MainDestinations.DETAIL_SCREEN) {
-                        DetailScreen(0)
+
+                    composable(
+                        route = MainDestinations.DETAIL_SCREEN,
+                        arguments = MainDestinations.detailScreenArguments
+                    ) { backStack ->
+                        backStack.arguments?.getLong(MainDestinations.MOVIE_ID)?.let { movieId ->
+                            DetailScreen(
+                                movieId = movieId,
+                                onBackPressed = {
+                                    mainNavController.navigateUp()
+                                }
+                            )
+                        }
                     }
                 }
             }

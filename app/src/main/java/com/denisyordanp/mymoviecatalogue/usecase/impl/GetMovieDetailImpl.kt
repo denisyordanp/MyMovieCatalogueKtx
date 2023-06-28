@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetMovieDetailImpl @Inject constructor(
     private val repository: MovieDetailRepository
 ) : GetMovieDetail {
-    override fun invoke(movieId: Int, isForce: Boolean) = flow {
+    override fun invoke(movieId: Long, isForce: Boolean) = flow {
         if (isForce) {
             repository.reloadMovieDetail(movieId)
         }

@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetReviewsImpl @Inject constructor(
     private val repository: ReviewsRepository
 ) : GetReviews {
-    override fun invoke(movieId: Int, isForce: Boolean) = flow {
+    override fun invoke(movieId: Long, isForce: Boolean) = flow {
         var hasReload = false
 
         if (isForce) {

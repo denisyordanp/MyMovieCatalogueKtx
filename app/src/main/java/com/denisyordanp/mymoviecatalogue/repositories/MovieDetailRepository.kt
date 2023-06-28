@@ -4,6 +4,6 @@ import com.denisyordanp.mymoviecatalogue.schemas.ui.MovieDetail
 import kotlinx.coroutines.flow.Flow
 
 interface MovieDetailRepository {
-    suspend fun reloadMovieDetail(movieId: Int)
-    fun getMovieDetail(movieId: Int): Flow<MovieDetail?>
+    suspend fun reloadMovieDetail(movieId: Long)
+    fun getMovieDetail(movieId: Long): Flow<MovieDetail?>
 }

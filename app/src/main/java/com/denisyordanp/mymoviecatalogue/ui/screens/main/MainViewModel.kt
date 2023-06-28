@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.denisyordanp.mymoviecatalogue.usecase.GetGenres
 import com.denisyordanp.mymoviecatalogue.usecase.GetMovies
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Genre
+import com.denisyordanp.mymoviecatalogue.tools.StackTrace
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -47,6 +48,7 @@ class MainViewModel @Inject constructor(
                         )
                     )
                 }.catch {
+                    StackTrace.printStackTrace(it)
                     val currentState = _viewState.value
                     emit(
                         currentState.copy(
@@ -65,7 +67,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun loadMovies(genreId: Int? = null, isForce: Boolean) {
+    fun loadMovies(genreId: Long? = null, isForce: Boolean) {
         viewModelScope.launch {
             val currentGenreId = genreId ?: _viewState.value.selectedGenre!!.id
             getMovies(genreId = currentGenreId, isForce = isForce)
@@ -87,6 +89,7 @@ class MainViewModel @Inject constructor(
                         )
                     )
                 }.catch {
+                    StackTrace.printStackTrace(it)
                     val currentState = _viewState.value
                     emit(
                         currentState.copy(

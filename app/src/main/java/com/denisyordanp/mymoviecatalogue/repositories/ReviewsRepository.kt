@@ -4,6 +4,6 @@ import com.denisyordanp.mymoviecatalogue.schemas.ui.Review
 import kotlinx.coroutines.flow.Flow
 
 interface ReviewsRepository {
-    suspend fun reloadReviews(movieId: Int)
-    fun getReviews(movieId: Int): Flow<List<Review>>
+    suspend fun reloadReviews(movieId: Long)
+    fun getReviews(movieId: Long): Flow<List<Review>>
 }

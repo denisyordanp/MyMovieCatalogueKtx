@@ -29,7 +29,7 @@ data class Review(
     val id: String,
 
     @ColumnInfo(name = Movie.ID_COLUMN)
-    val movieId: Int,
+    val movieId: Long,
 
     @ColumnInfo(name = AUTHOR_COLUMN)
     val author: String,

@@ -14,7 +14,7 @@ data class Video(
     val size: Int,
     val type: String
 ) {
-    fun toEntity(movieId: Int): DbVideo {
+    fun toEntity(movieId: Long): DbVideo {
         return DbVideo(
             id = id,
             movieId = movieId,

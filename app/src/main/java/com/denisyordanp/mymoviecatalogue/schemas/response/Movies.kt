@@ -8,7 +8,7 @@ data class Movies(
     val totalPages: Int,
     val totalResults: Int
 ) {
-    fun toEntities(genreId: Int): List<DbMovie> {
+    fun toEntities(genreId: Long): List<DbMovie> {
         return results.map {
             it.toEntity(genreId)
         }

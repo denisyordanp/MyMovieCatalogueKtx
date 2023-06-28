@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 interface ReviewsDao {
 
     @Query("SELECT * FROM '${Review.TABLE_NAME}' WHERE ${Movie.ID_COLUMN} = :movieId")
-    fun getReviews(movieId: Int): Flow<List<Review>>
+    fun getReviews(movieId: Long): Flow<List<Review>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertReviews(reviews: List<Review>)

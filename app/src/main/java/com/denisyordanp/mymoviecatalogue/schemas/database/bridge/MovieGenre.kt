@@ -33,13 +33,13 @@ import com.denisyordanp.mymoviecatalogue.schemas.database.MovieDetail
 data class MovieGenre(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID_COLUMN)
-    val id: Int,
+    val id: Long,
 
     @ColumnInfo(name = MovieDetail.ID_COLUMN)
-    val movieId: Int,
+    val movieId: Long,
 
     @ColumnInfo(name = Genre.ID_COLUMN)
-    val genreId: Int
+    val genreId: Long
 ) {
     companion object {
         const val TABLE_NAME = "movie_genre"

@@ -1,7 +1,6 @@
 package com.denisyordanp.mymoviecatalogue.ui.screens.detail
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.MaterialTheme
@@ -25,11 +24,12 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @Composable
 fun DetailScreen(
-    movieId: Int,
-    viewModel: DetailViewModel = hiltViewModel()
+    movieId: Long,
+    viewModel: DetailViewModel = hiltViewModel(),
+    onBackPressed: () -> Unit,
 ) {
     LaunchedEffect(key1 = movieId) {
-        viewModel.loadMovieDetail(movieId)
+        viewModel.loadMovieDetail(movieId, false)
     }
     val state = viewModel.viewState.collectAsState()
 
@@ -37,7 +37,7 @@ fun DetailScreen(
         state = state.value,
         onRefresh = { },
         onRetryError = { },
-        onBackPressed = { },
+        onBackPressed = onBackPressed,
         onMoreReviewsClicked = {},
         onVideosRetry = {},
         onReviewRetry = {}
@@ -54,33 +54,34 @@ private fun DetailScreenContent(
     onVideosRetry: () -> Unit,
     onReviewRetry: () -> Unit,
 ) {
-    state.movieDetail?.let { detail ->
-        Scaffold(
-            topBar = {
-                TopBar(
-                    title = detail.title,
-                    onBackPressed = onBackPressed
-                )
-            },
-            content = { padding ->
-                Surface(
-                    modifier = Modifier
-                        .padding(padding)
-                        .fillMaxSize(),
-                    color = MaterialTheme.colors.background
+
+    Scaffold(
+        topBar = {
+            TopBar(
+                title = state.movieDetail?.title ?: "",
+                onBackPressed = onBackPressed
+            )
+        },
+        content = { padding ->
+            Surface(
+                modifier = Modifier
+                    .padding(padding)
+                    .fillMaxSize(),
+                color = MaterialTheme.colors.background
+            ) {
+                val refreshState = rememberSwipeRefreshState(isRefreshing = false)
+                SwipeRefresh(
+                    state = refreshState,
+                    onRefresh = onRefresh
                 ) {
-                    val refreshState = rememberSwipeRefreshState(isRefreshing = false)
-                    SwipeRefresh(
-                        state = refreshState,
-                        onRefresh = onRefresh
-                    ) {
-                        if (state.error != null) {
-                            ErrorContent(
-                                modifier = Modifier.fillMaxWidth(),
-                                error = state.error,
-                                onRetryError = onRetryError
-                            )
-                        } else {
+                    if (state.error != null) {
+                        ErrorContent(
+                            modifier = Modifier.fillMaxSize(),
+                            error = state.error,
+                            onRetryError = onRetryError
+                        )
+                    } else {
+                        state.movieDetail?.let { detail ->
                             LazyColumn {
                                 item {
                                     Header(detail)
@@ -102,8 +103,8 @@ private fun DetailScreenContent(
                     }
                 }
             }
-        )
-    }
+        }
+    )
 }
 
 @Composable
