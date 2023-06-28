@@ -3,7 +3,6 @@ package com.denisyordanp.mymoviecatalogue.ui.components
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
@@ -19,12 +18,12 @@ import com.denisyordanp.mymoviecatalogue.ui.theme.MyMovieCatalogueTheme
 
 @Composable
 fun ErrorContent(
+    modifier: Modifier = Modifier,
     error: Throwable,
     onRetryError: () -> Unit
 ) {
     Box(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
         GeneralError(

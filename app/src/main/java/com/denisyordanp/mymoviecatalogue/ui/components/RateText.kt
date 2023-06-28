@@ -39,7 +39,7 @@ fun RateText(
         Spacer(modifier = Modifier.width(2.dp))
         Text(
             text = "($from)",
-            style = MaterialTheme.typography.subtitle1,
+            style = MaterialTheme.typography.caption,
         )
     }
 }

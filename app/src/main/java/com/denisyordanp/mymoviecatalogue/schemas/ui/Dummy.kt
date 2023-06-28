@@ -1,5 +1,9 @@
 package com.denisyordanp.mymoviecatalogue.schemas.ui
 
+import com.denisyordanp.mymoviecatalogue.ui.screens.detail.DetailViewState
+import com.denisyordanp.mymoviecatalogue.ui.screens.detail.ReviewsViewState
+import com.denisyordanp.mymoviecatalogue.ui.screens.detail.VideosViewState
+
 object Dummy {
     fun getGenres() = listOf(
         Genre(
@@ -130,5 +134,19 @@ object Dummy {
             name = "Time Moves Fast",
             publishedAt = "2023-05-26T22:50:56.000Z"
         ),
+    )
+
+    fun getDetailViewState() = DetailViewState.idle().copy(
+        movieDetail = getMovieDetail(),
+        reviewsViewState = getReviewsViewState(),
+        videosViewState = getVideoViewState()
+    )
+
+    fun getReviewsViewState() = ReviewsViewState.idle().copy(
+        reviews = getReviews()
+    )
+
+    fun getVideoViewState() = VideosViewState.idle().copy(
+        videos = getVideos()
     )
 }

@@ -36,7 +36,7 @@ fun Body(detail: MovieDetail) {
             modifier = Modifier
                 .constrainAs(rate) {
                     top.linkTo(parent.top)
-                    linkTo(start = tagline.end, end = parent.end)
+                    linkTo(start = tagline.end, end = parent.end, startMargin = 8.dp)
                 },
             rate = detail.voteAverage.toString(),
             from = detail.voteCount.toString()

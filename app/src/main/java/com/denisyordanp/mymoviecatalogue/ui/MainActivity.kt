@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
                         MainScreen()
                     }
                     composable(route = MainDestinations.DETAIL_SCREEN) {
-                        DetailScreen()
+                        DetailScreen(0)
                     }
                 }
             }

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -71,6 +72,7 @@ private fun MainScreenContent(
         ) {
             if (state.genreViewState.error != null) {
                 ErrorContent(
+                    modifier = Modifier.fillMaxWidth(),
                     error = state.genreViewState.error,
                     onRetryError = onGenresRetryError
                 )
@@ -101,6 +103,7 @@ private fun Movies(
 ) {
     if (state.error != null) {
         ErrorContent(
+            modifier = Modifier.fillMaxWidth(),
             error = state.error,
             onRetryError = onRetryError
         )
