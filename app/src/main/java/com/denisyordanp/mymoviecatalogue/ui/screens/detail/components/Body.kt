@@ -6,6 +6,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -44,7 +45,7 @@ fun Body(detail: MovieDetail) {
         Text(
             modifier = Modifier
                 .constrainAs(release) {
-                    top.linkTo(tagline.bottom, margin = 12.dp)
+                    top.linkTo(tagline.bottom, margin = 8.dp)
                     start.linkTo(parent.start)
                 },
             text = "Released ${detail.releaseDate}",
@@ -57,7 +58,7 @@ fun Body(detail: MovieDetail) {
             modifier = Modifier
                 .constrainAs(overView) {
                     linkTo(start = parent.start, end = parent.end)
-                    top.linkTo(release.bottom, margin = 4.dp)
+                    top.linkTo(release.bottom, margin = 16.dp)
                 },
             text = detail.overview,
             style = MaterialTheme.typography.body1,
@@ -66,24 +67,24 @@ fun Body(detail: MovieDetail) {
         Text(
             modifier = Modifier
                 .constrainAs(budget) {
-                    linkTo(start = parent.start, end = revenue.start)
-                    top.linkTo(overView.bottom, margin = 8.dp)
+                    linkTo(start = parent.start, end = parent.end)
+                    top.linkTo(overView.bottom, margin = 16.dp)
                     width = Dimension.fillToConstraints
                 },
             text = "Budget ${detail.budget}",
             style = MaterialTheme.typography.body1,
-            textAlign = TextAlign.Center
+            fontWeight = FontWeight.Bold
         )
         Text(
             modifier = Modifier
                 .constrainAs(revenue) {
-                    linkTo(start = budget.end, end = parent.end)
-                    top.linkTo(overView.bottom, margin = 8.dp)
+                    linkTo(start = parent.start, end = parent.end)
+                    top.linkTo(budget.bottom, margin = 4.dp)
                     width = Dimension.fillToConstraints
                 },
             text = "Revenue ${detail.revenue}",
             style = MaterialTheme.typography.body1,
-            textAlign = TextAlign.Center
+            fontWeight = FontWeight.Bold
         )
     }
 }
