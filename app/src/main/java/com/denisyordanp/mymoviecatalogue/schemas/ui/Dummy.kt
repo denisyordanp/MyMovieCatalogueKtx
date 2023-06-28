@@ -59,30 +59,37 @@ object Dummy {
             voteCount = 801
         ),
     )
+
     fun getMovieDetail() = MovieDetail(
         id = 1,
         backdropPath = "/e2Jd0sYMCe6qvMbswGQbM0Mzxt0.jpg",
         budget = 340000000,
         genres = getGenres(),
-        homepage = "https://fastxmovie.com",
-        imdbId = "tt5433140",
-        originalLanguage = "en",
-        originalTitle = "Fast X",
         overview = "Over many missions and against impossible odds, Dom Toretto and his family have outsmarted, out-nerved and outdriven every foe in their path. Now, they confront the most lethal opponent they've ever faced: A terrifying threat emerging from the shadows of the past who's fueled by blood revenge, and who is determined to shatter this family and destroy everything—and everyone—that Dom loves, forever.",
-        popularity = 1.2,
         posterPath = "/fiVW06jE7z9YnO4trhaMEdclSiC.jpg",
         releaseDate = "2023-05-17",
         revenue = 686700000,
-        runtime = 142,
-        status = "Released",
         tagline = "The end of the road begins.",
         title = "Fast X",
-        video = false,
         voteAverage = 7.283,
         voteCount = 2040
     )
 
-    fun getReviews() = listOf(
+    fun getDetailViewState() = DetailViewState.idle().copy(
+        movieDetail = getMovieDetail(),
+        reviewsViewState = getReviewsViewState(),
+        videosViewState = getVideoViewState()
+    )
+
+    fun getReviewsViewState() = ReviewsViewState.idle().copy(
+        reviews = getReviews()
+    )
+
+    fun getVideoViewState() = VideosViewState.idle().copy(
+        videos = getVideos()
+    )
+
+    private fun getReviews() = listOf(
         Review(
             id = "123",
             author = "MSB",
@@ -115,7 +122,7 @@ object Dummy {
         )
     )
 
-    fun getVideos() = listOf(
+    private fun getVideos() = listOf(
         Video(
             id = "12",
             key = "xZd6Kxg_MDQ",
@@ -134,19 +141,5 @@ object Dummy {
             name = "Time Moves Fast",
             publishedAt = "2023-05-26T22:50:56.000Z"
         ),
-    )
-
-    fun getDetailViewState() = DetailViewState.idle().copy(
-        movieDetail = getMovieDetail(),
-        reviewsViewState = getReviewsViewState(),
-        videosViewState = getVideoViewState()
-    )
-
-    fun getReviewsViewState() = ReviewsViewState.idle().copy(
-        reviews = getReviews()
-    )
-
-    fun getVideoViewState() = VideosViewState.idle().copy(
-        videos = getVideos()
     )
 }
