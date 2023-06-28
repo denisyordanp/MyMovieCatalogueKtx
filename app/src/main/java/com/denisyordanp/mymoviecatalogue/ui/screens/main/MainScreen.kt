@@ -76,7 +76,7 @@ private fun MainScreenContent(
         ) {
             if (state.genreViewState.error != null) {
                 ErrorContent(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxSize(),
                     error = state.genreViewState.error,
                     onRetryError = onGenresRetryError
                 )

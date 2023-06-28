@@ -40,7 +40,7 @@ fun TopBar(
                 imageVector = Icons.Filled.ArrowBack,
                 contentDescription = null
             )
-            Spacer(modifier = Modifier.width(12.dp))
+            Spacer(modifier = Modifier.width(8.dp))
             Text(
                 text = title,
                 style = MaterialTheme.typography.h5.copy(
