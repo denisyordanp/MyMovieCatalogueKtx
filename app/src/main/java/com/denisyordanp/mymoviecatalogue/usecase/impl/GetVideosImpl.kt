@@ -20,8 +20,9 @@ class GetVideosImpl @Inject constructor(
                 if (it.isEmpty() && hasReload.not()) {
                     repository.reloadVideos(movieId)
                     hasReload = true
+                } else {
+                    emit(it)
                 }
-                emit(it)
             }
     }
 }

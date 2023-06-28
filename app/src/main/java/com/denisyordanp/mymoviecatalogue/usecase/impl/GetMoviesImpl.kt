@@ -16,8 +16,9 @@ class GetMoviesImpl @Inject constructor(
             .collect {
                 if (it.isEmpty()) {
                     repository.reloadMovies(genreId)
+                } else {
+                    emit(it)
                 }
-                emit(it)
             }
     }
 }

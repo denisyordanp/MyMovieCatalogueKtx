@@ -20,8 +20,9 @@ class GetReviewsImpl @Inject constructor(
                 if (it.isEmpty() && hasReload.not()) {
                     repository.reloadReviews(movieId)
                     hasReload = true
+                } else {
+                    emit(it)
                 }
-                emit(it)
             }
     }
 }
