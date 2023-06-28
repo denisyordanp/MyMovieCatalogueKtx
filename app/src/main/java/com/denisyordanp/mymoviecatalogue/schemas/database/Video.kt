@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.denisyordanp.mymoviecatalogue.tools.NetworkConfig
 
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Video as UiVideo
 
@@ -43,7 +44,7 @@ data class Video(
     fun toUi(): UiVideo {
         return UiVideo(
             id = id,
-            key = key,
+            thumbnailPath = NetworkConfig.getYoutubeThumbnailUrl(key),
             name = name,
             publishedAt = publishedAt
         )

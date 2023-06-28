@@ -9,5 +9,6 @@ object NetworkConfig {
     fun getImagePosterUrl(): String = getImageBaseUrl() + "w300"
     fun getImageBackdropUrl(): String = getImageBaseUrl() + "w500"
     private fun getImageBaseUrl(): String = "https://image.tmdb.org/t/p/"
+    fun getYoutubeThumbnailUrl(key: String) = "https://img.youtube.com/vi/$key/0.jpg"
     fun timeout(): Long = 60
 }

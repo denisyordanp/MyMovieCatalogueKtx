@@ -29,17 +29,23 @@ fun DetailScreen(
     onBackPressed: () -> Unit,
 ) {
     LaunchedEffect(key1 = movieId) {
-        viewModel.loadMovieDetail(movieId, false)
+        viewModel.loadAll(movieId = movieId, isForce = false)
     }
     val state = viewModel.viewState.collectAsState()
 
     DetailScreenContent(
         state = state.value,
-        onRefresh = { },
-        onRetryError = { },
+        onRefresh = {
+            viewModel.loadAll(movieId = movieId, isForce = true)
+        },
+        onRetryError = {
+            viewModel.loadMovieDetail(movieId = movieId, isForce = true)
+        },
         onBackPressed = onBackPressed,
         onMoreReviewsClicked = {},
-        onVideosRetry = {},
+        onVideosRetry = {
+            viewModel.loadVideos(movieId = movieId, isForce = true)
+        },
         onReviewRetry = {}
     )
 }

@@ -7,6 +7,10 @@ data class Videos(
     val results: List<Video>
 ) {
     fun toEntity(movieId: Long): List<DbVideo> {
-        return results.map { it.toEntity(movieId) }
+        return results.filter {
+            it.isYoutube()
+        }.map {
+            it.toEntity(movieId)
+        }
     }
 }

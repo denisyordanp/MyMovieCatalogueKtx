@@ -10,6 +10,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
@@ -37,7 +38,7 @@ fun MovieItem(
                 onClickItem(movie)
             },
         elevation = 2.dp,
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(12.dp),
     ) {
         ConstraintLayout {
             val (poster, title, release, overview, rate) = createRefs()
@@ -46,16 +47,18 @@ fun MovieItem(
                     .constrainAs(poster) {
                         linkTo(top = parent.top, bottom = parent.bottom)
                         start.linkTo(parent.start)
+                        height = Dimension.fillToConstraints
                     }.width(100.dp),
                 model = movie.posterPath,
                 contentDescription = null,
                 placeholder = painterResource(id = R.drawable.baseline_image_24),
-                error = painterResource(id = R.drawable.baseline_broken_image_24)
+                error = painterResource(id = R.drawable.baseline_broken_image_24),
+                contentScale = ContentScale.Crop
             )
             Text(
                 modifier = Modifier
                     .constrainAs(title) {
-                        top.linkTo(parent.top, margin = 8.dp)
+                        top.linkTo(parent.top, margin = 16.dp)
                         linkTo(
                             start = poster.end,
                             end = parent.end,
@@ -66,6 +69,8 @@ fun MovieItem(
                     },
                 text = movie.title,
                 style = MaterialTheme.typography.h6,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
             Text(
                 modifier = Modifier
@@ -108,7 +113,7 @@ fun MovieItem(
                             bottom = parent.bottom,
                             top = overview.bottom,
                             bias = 1f,
-                            bottomMargin = 4.dp
+                            bottomMargin = 16.dp
                         )
                         linkTo(
                             start = poster.end,

@@ -23,4 +23,12 @@ data class Video(
             publishedAt = publishedAt
         )
     }
+
+    fun isYoutube(): Boolean {
+        return site.lowercase() == YOUTUBE
+    }
+
+    companion object {
+        const val YOUTUBE = "youtube"
+    }
 }
