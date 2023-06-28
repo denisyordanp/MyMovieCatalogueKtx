@@ -38,7 +38,7 @@ fun Body(detail: MovieDetail) {
                     top.linkTo(parent.top)
                     linkTo(start = tagline.end, end = parent.end, startMargin = 8.dp)
                 },
-            rate = detail.voteAverage.toString(),
+            rate = detail.voteAverage,
             from = detail.voteCount.toString()
         )
         Text(

@@ -115,7 +115,7 @@ fun MovieItem(
                         )
                         width = Dimension.fillToConstraints
                     },
-                rate = movie.voteAverage.toString(),
+                rate = movie.voteAverage,
                 from = movie.voteCount.toString()
             )
         }

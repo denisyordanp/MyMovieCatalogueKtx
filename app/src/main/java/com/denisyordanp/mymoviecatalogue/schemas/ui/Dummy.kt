@@ -46,7 +46,7 @@ object Dummy {
             posterPath = "/fiVW06jE7z9YnO4trhaMEdclSiC.jpg",
             releaseDate = "2023-05-17",
             title = "Fast X",
-            voteAverage = 7.3,
+            voteAverage = "7.3",
             voteCount = 1998
         ),
         Movie(
@@ -55,7 +55,7 @@ object Dummy {
             posterPath = "/7gKI9hpEMcZUQpNgKrkDzJpbnNS.jpg",
             releaseDate = "2023-06-09",
             title = "Extraction 2",
-            voteAverage = 7.7,
+            voteAverage = "7.742",
             voteCount = 801
         ),
     )
@@ -63,14 +63,14 @@ object Dummy {
     fun getMovieDetail() = MovieDetail(
         id = 1,
         backdropPath = "/e2Jd0sYMCe6qvMbswGQbM0Mzxt0.jpg",
-        budget = 340000000,
+        budget = "340000000",
         genres = getGenres(),
         overview = "Over many missions and against impossible odds, Dom Toretto and his family have outsmarted, out-nerved and outdriven every foe in their path. Now, they confront the most lethal opponent they've ever faced: A terrifying threat emerging from the shadows of the past who's fueled by blood revenge, and who is determined to shatter this family and destroy everything—and everyone—that Dom loves, forever.",
         releaseDate = "2023-05-17",
-        revenue = 686700000,
+        revenue = "686700000",
         tagline = "The end of the road begins.",
         title = "Fast X",
-        voteAverage = 7.283,
+        voteAverage = "7.283",
         voteCount = 2040
     )
 
