@@ -32,7 +32,6 @@ data class MovieDetail(
                 backdropPath = backdropPath,
                 budget = budget,
                 overview = overview,
-                posterPath = posterPath,
                 releaseDate = releaseDate,
                 revenue = revenue,
                 tagline = tagline,

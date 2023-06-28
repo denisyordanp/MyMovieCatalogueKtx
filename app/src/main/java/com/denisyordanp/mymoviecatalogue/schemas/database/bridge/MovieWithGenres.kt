@@ -31,7 +31,6 @@ data class MovieWithGenres(
             budget = movieDetail.budget,
             genres = convertedGenres,
             overview = movieDetail.overview,
-            posterPath = movieDetail.posterPath,
             releaseDate = movieDetail.releaseDate,
             revenue = movieDetail.revenue,
             tagline = movieDetail.tagline,

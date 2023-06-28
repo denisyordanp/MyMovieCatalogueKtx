@@ -6,7 +6,6 @@ data class MovieDetail(
     val budget: Long,
     val genres: List<Genre>,
     val overview: String,
-    val posterPath: String,
     val releaseDate: String,
     val revenue: Long,
     val tagline: String,

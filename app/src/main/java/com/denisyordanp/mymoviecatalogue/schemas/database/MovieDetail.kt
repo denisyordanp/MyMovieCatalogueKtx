@@ -25,9 +25,6 @@ data class MovieDetail(
     @ColumnInfo(name = OVERVIEW_COLUMN)
     val overview: String,
 
-    @ColumnInfo(name = POSTER_COLUMN)
-    val posterPath: String,
-
     @ColumnInfo(name = RELEASE_COLUMN)
     val releaseDate: String,
 
@@ -52,7 +49,6 @@ data class MovieDetail(
         const val BACKDROP_COLUMN = "backdrop"
         const val BUDGET_COLUMN = "budget"
         const val OVERVIEW_COLUMN = "overview"
-        const val POSTER_COLUMN = "poster"
         const val RELEASE_COLUMN = "release"
         const val REVENUE_COLUMN = "revenue"
         const val TAGLINE_COLUMN = "tagline"
