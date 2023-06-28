@@ -14,7 +14,7 @@ interface MovieDetailDao {
 
     @Transaction
     @Query("SELECT * FROM '${MovieDetail.TABLE_NAME}' WHERE ${MovieDetail.ID_COLUMN} = :movieId")
-    fun getMovieDetail(movieId: Int): Flow<MovieWithGenres>
+    fun getMovieDetail(movieId: Int): Flow<MovieWithGenres?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMovieDetail(movieDetail: MovieDetail)

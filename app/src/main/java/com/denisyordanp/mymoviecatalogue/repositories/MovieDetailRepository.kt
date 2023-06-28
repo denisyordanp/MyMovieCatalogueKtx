@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface MovieDetailRepository {
     suspend fun reloadMovieDetail(movieId: Int)
-    fun getMovieDetail(movieId: Int): Flow<MovieDetail>
+    fun getMovieDetail(movieId: Int): Flow<MovieDetail?>
 }

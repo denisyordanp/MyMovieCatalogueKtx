@@ -26,8 +26,8 @@ class MovieDetailRepositoryImpl @Inject constructor(
         movieGenre.insertMovieGenres(movieGenres)
     }
 
-    override fun getMovieDetail(movieId: Int): Flow<MovieDetail> {
+    override fun getMovieDetail(movieId: Int): Flow<MovieDetail?> {
         return movieDetailDao.getMovieDetail(movieId)
-            .map { it.toUi() }
+            .map { it?.toUi() }
     }
 }
