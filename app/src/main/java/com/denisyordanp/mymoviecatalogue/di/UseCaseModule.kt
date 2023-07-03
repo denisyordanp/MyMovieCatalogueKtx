@@ -3,11 +3,13 @@ package com.denisyordanp.mymoviecatalogue.di
 import com.denisyordanp.mymoviecatalogue.usecase.GetGenres
 import com.denisyordanp.mymoviecatalogue.usecase.GetMovieDetail
 import com.denisyordanp.mymoviecatalogue.usecase.GetMovies
+import com.denisyordanp.mymoviecatalogue.usecase.GetMoviesPaging
 import com.denisyordanp.mymoviecatalogue.usecase.GetReviews
 import com.denisyordanp.mymoviecatalogue.usecase.GetVideos
 import com.denisyordanp.mymoviecatalogue.usecase.impl.GetGenresImpl
 import com.denisyordanp.mymoviecatalogue.usecase.impl.GetMovieDetailImpl
 import com.denisyordanp.mymoviecatalogue.usecase.impl.GetMoviesImpl
+import com.denisyordanp.mymoviecatalogue.usecase.impl.GetMoviesPagingImpl
 import com.denisyordanp.mymoviecatalogue.usecase.impl.GetReviewsImpl
 import com.denisyordanp.mymoviecatalogue.usecase.impl.GetVideosImpl
 import dagger.Binds
@@ -43,4 +45,9 @@ abstract class UseCaseModule {
     abstract fun bindGetVideos(
         getVideosImpl: GetVideosImpl
     ): GetVideos
+
+    @Binds
+    abstract fun bindGetMoviePaging(
+        getMoviesPagingImpl: GetMoviesPagingImpl
+    ): GetMoviesPaging
 }
