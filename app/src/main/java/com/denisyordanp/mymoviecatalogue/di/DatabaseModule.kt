@@ -7,6 +7,7 @@ import com.denisyordanp.mymoviecatalogue.database.GenresDao
 import com.denisyordanp.mymoviecatalogue.database.MovieDetailDao
 import com.denisyordanp.mymoviecatalogue.database.MovieGenreDao
 import com.denisyordanp.mymoviecatalogue.database.MoviesDao
+import com.denisyordanp.mymoviecatalogue.database.RemotePagesDao
 import com.denisyordanp.mymoviecatalogue.database.ReviewsDao
 import com.denisyordanp.mymoviecatalogue.database.VideosDao
 import dagger.Module
@@ -49,4 +50,7 @@ object DatabaseModule {
 
     @Provides
     fun provideVideosDao(appDatabase: AppDatabase): VideosDao = appDatabase.videosDao()
+
+    @Provides
+    fun provideRemotePagesDao(appDatabase: AppDatabase): RemotePagesDao = appDatabase.remotePagesDao()
 }

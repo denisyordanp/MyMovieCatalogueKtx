@@ -5,6 +5,7 @@ import androidx.room.RoomDatabase
 import com.denisyordanp.mymoviecatalogue.schemas.database.Genre
 import com.denisyordanp.mymoviecatalogue.schemas.database.Movie
 import com.denisyordanp.mymoviecatalogue.schemas.database.MovieDetail
+import com.denisyordanp.mymoviecatalogue.schemas.database.RemotePages
 import com.denisyordanp.mymoviecatalogue.schemas.database.Review
 import com.denisyordanp.mymoviecatalogue.schemas.database.Video
 import com.denisyordanp.mymoviecatalogue.schemas.database.bridge.MovieGenre
@@ -16,7 +17,8 @@ import com.denisyordanp.mymoviecatalogue.schemas.database.bridge.MovieGenre
         MovieDetail::class,
         Review::class,
         Video::class,
-        MovieGenre::class
+        MovieGenre::class,
+        RemotePages::class
     ],
     version = 1
 )
@@ -27,6 +29,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun reviewsDao(): ReviewsDao
     abstract fun videosDao(): VideosDao
     abstract fun movieGenreDao(): MovieGenreDao
+    abstract fun remotePagesDao(): RemotePagesDao
 
     companion object {
         const val DB_NAME = "my_movie_catalogue"
