@@ -15,12 +15,16 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.paging.PagingData
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Dummy
+import com.denisyordanp.mymoviecatalogue.schemas.ui.Review
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Video
 import com.denisyordanp.mymoviecatalogue.ui.components.ErrorContent
 import com.denisyordanp.mymoviecatalogue.ui.components.ReviewItem
@@ -59,7 +63,8 @@ private fun Reviews(
     onMoreReviewClicked: () -> Unit,
     onRetryError: () -> Unit
 ) {
-    if (reviewsViewState.error != null || reviewsViewState.reviews.isNotEmpty()) {
+    val reviewsState = reviewsViewState.reviews.collectAsState(initial = PagingData.empty())
+    if (reviewsViewState.error != null || reviewsState.value != PagingData.empty<List<Review>>()) {
         Column(
             modifier = Modifier
                 .padding(16.dp)
@@ -92,13 +97,19 @@ private fun ReviewContent(
             onRetryError = onRetryError
         )
     } else {
-        if (reviewsViewState.reviews.size >= 3) {
+        val state = reviewsViewState.reviews.collectAsLazyPagingItems()
+
+        if (state.itemCount >= 3) {
             repeat(3) {
-                ReviewItem(review = reviewsViewState.reviews[it], isShortedContent = true)
+                state[it]?.let { review ->
+                    ReviewItem(review = review, isShortedContent = true)
+                }
             }
         } else {
-            reviewsViewState.reviews.forEach {
-                ReviewItem(review = it, isShortedContent = true)
+            repeat(state.itemCount) {
+                state[it]?.let { review ->
+                    ReviewItem(review = review, isShortedContent = true)
+                }
             }
         }
         Spacer(modifier = Modifier.height(4.dp))
