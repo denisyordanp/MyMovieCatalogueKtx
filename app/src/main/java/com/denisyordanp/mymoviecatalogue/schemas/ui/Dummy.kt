@@ -41,6 +41,13 @@ object Dummy {
             name = "Documentary"
         ),
     )
+
+    fun getMoviePaging() = flowOf(
+        PagingData.from(
+            getMovies()
+        )
+    )
+
     fun getMovies() = listOf(
         Movie(
             id = 1,
