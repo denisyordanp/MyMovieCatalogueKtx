@@ -8,13 +8,16 @@ data class Movies(
     val totalPages: Int,
     val totalResults: Int
 ) {
-    fun toEntities(genreId: Long): List<DbMovie> {
+    fun toEntities(
+        genreId: Long,
+        page: Int,
+    ): List<DbMovie> {
         return results.map {
-            it.toEntity(genreId)
+            it.toEntity(genreId = genreId, page = page)
         }
     }
 
     companion object {
-        const val PAGE_SIZE = 30
+        const val PAGE_SIZE = 20
     }
 }

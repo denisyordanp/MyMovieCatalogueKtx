@@ -1,11 +1,8 @@
 package com.denisyordanp.mymoviecatalogue.repositories
 
-import androidx.paging.PagingData
-import com.denisyordanp.mymoviecatalogue.schemas.ui.Movie
-import kotlinx.coroutines.flow.Flow
+import androidx.paging.PagingSource
+import com.denisyordanp.mymoviecatalogue.schemas.database.Movie
 
 interface MovieRepository {
-    suspend fun reloadMovies(genreId: Long)
-    fun getMovies(genreId: Long): Flow<List<Movie>>
-    fun getMoviesPager(genreId: Long): Flow<PagingData<Movie>>
+    fun getMovies(genreId: Long): PagingSource<Int, Movie>
 }

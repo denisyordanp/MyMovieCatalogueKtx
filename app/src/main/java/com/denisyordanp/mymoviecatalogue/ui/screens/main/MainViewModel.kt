@@ -2,12 +2,10 @@ package com.denisyordanp.mymoviecatalogue.ui.screens.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.cachedIn
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Genre
 import com.denisyordanp.mymoviecatalogue.tools.StackTrace
 import com.denisyordanp.mymoviecatalogue.usecase.GetGenres
 import com.denisyordanp.mymoviecatalogue.usecase.GetMovies
-import com.denisyordanp.mymoviecatalogue.usecase.GetMoviesPaging
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,8 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val getGenres: GetGenres,
-    private val getMovies: GetMovies,
-    private val getMoviesPaging: GetMoviesPaging
+    private val getMovies: GetMovies
 ) : ViewModel() {
     private val _viewState = MutableStateFlow(MainViewState.idle())
     val viewState = _viewState.asStateFlow()
@@ -65,7 +62,7 @@ class MainViewModel @Inject constructor(
                 }.collect {
                     _viewState.emit(it)
                     if (it.genreViewState.error == null && it.selectedGenre != null) {
-                        loadMovies(genreId = it.selectedGenre.id, isForce = isForce)
+//                        loadMovies(genreId = it.selectedGenre.id, isForce = isForce)
                     }
                 }
         }
@@ -74,12 +71,12 @@ class MainViewModel @Inject constructor(
     fun loadMovies(genreId: Long? = null, isForce: Boolean) {
         viewModelScope.launch {
             val currentGenreId = genreId ?: _viewState.value.selectedGenre!!.id
-            getMoviesPaging(genreId = currentGenreId)
+            getMovies(genreId = currentGenreId, isForce = isForce)
                 .map {
                     val currentState = _viewState.value
                     currentState.copy(
                         movieViewState = currentState.movieViewState.copy(
-                            movies = flowOf(it).cachedIn(viewModelScope),
+                            movies = flowOf(it),
                             isLoading = false
                         )
                     )
@@ -109,6 +106,8 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun loadMovies() = getMovies(genreId = 28, isForce = false)
+
     fun selectGenre(genre: Genre) {
         viewModelScope.launch {
             _viewState.emit(
@@ -116,7 +115,7 @@ class MainViewModel @Inject constructor(
                     selectedGenre = genre
                 )
             )
-            loadMovies(genre.id, false)
+//            loadMovies(genre.id, false)
         }
     }
 }

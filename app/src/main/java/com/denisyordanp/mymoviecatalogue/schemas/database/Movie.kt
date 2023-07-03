@@ -51,7 +51,10 @@ data class Movie(
     val voteAverage: Double,
 
     @ColumnInfo(name = VOTE_COUNT_COLUMN)
-    val voteCount: Long
+    val voteCount: Long,
+
+    @ColumnInfo(name = PAGE_COLUMN)
+    val page: Int,
 ) {
     fun toUi(): UiMovie {
         return UiMovie(
@@ -77,6 +80,6 @@ data class Movie(
         const val TITLE_COLUMN = "title"
         const val VOTE_AVERAGE_COLUMN = "vote_average"
         const val VOTE_COUNT_COLUMN = "vote_count"
-        fun getPageLabel(genreId: Long): String = TABLE_NAME+genreId
+        const val PAGE_COLUMN = "page"
     }
 }
