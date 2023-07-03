@@ -13,4 +13,8 @@ data class Movies(
             it.toEntity(genreId)
         }
     }
+
+    companion object {
+        const val PAGE_SIZE = 30
+    }
 }
