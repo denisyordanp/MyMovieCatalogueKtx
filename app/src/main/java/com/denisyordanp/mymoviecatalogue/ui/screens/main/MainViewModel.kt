@@ -3,15 +3,16 @@ package com.denisyordanp.mymoviecatalogue.ui.screens.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.denisyordanp.mymoviecatalogue.usecase.GetGenres
-import com.denisyordanp.mymoviecatalogue.usecase.GetMovies
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Genre
 import com.denisyordanp.mymoviecatalogue.tools.StackTrace
+import com.denisyordanp.mymoviecatalogue.usecase.GetGenres
+import com.denisyordanp.mymoviecatalogue.usecase.GetMovies
 import com.denisyordanp.mymoviecatalogue.usecase.GetMoviesPaging
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
@@ -64,7 +65,7 @@ class MainViewModel @Inject constructor(
                 }.collect {
                     _viewState.emit(it)
                     if (it.genreViewState.error == null && it.selectedGenre != null) {
-//                        loadMovies(genreId = it.selectedGenre.id, isForce = isForce)
+                        loadMovies(genreId = it.selectedGenre.id, isForce = isForce)
                     }
                 }
         }
@@ -73,12 +74,12 @@ class MainViewModel @Inject constructor(
     fun loadMovies(genreId: Long? = null, isForce: Boolean) {
         viewModelScope.launch {
             val currentGenreId = genreId ?: _viewState.value.selectedGenre!!.id
-            getMovies(genreId = currentGenreId, isForce = isForce)
+            getMoviesPaging(genreId = currentGenreId)
                 .map {
                     val currentState = _viewState.value
                     currentState.copy(
                         movieViewState = currentState.movieViewState.copy(
-                            movies = it,
+                            movies = flowOf(it).cachedIn(viewModelScope),
                             isLoading = false
                         )
                     )
@@ -108,8 +109,6 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun loadMoviePaging(genreId: Long) = getMoviesPaging(genreId).cachedIn(viewModelScope)
-
     fun selectGenre(genre: Genre) {
         viewModelScope.launch {
             _viewState.emit(
@@ -117,7 +116,7 @@ class MainViewModel @Inject constructor(
                     selectedGenre = genre
                 )
             )
-//            loadMovies(genre.id, false)
+            loadMovies(genre.id, false)
         }
     }
 }
