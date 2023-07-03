@@ -11,9 +11,10 @@ ext {
   contraintComposeVerstion = '1.0.1'
   hiltNavigationComposeVersion = '1.0.0'
   accompanistVersion = '0.23.1'
+  pagingComposeVersion = '3.2.0-rc01'
 
   // Database
-  roomVersion = '2.4.3'
+  roomVersion = '2.5.2'
   sqliteJdbc = '3.36.0.1'
   dataStoreVersion = '1.0.0'
 
@@ -26,6 +27,9 @@ ext {
 
   // Hilt
   hiltVersion = '2.44'
+
+  // Paging
+  pagingVersion = '3.1.1'
 
   // Testing
   junitVersion = '4.13.2'
