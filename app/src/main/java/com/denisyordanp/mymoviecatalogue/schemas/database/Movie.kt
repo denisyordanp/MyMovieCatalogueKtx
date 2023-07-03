@@ -77,5 +77,6 @@ data class Movie(
         const val TITLE_COLUMN = "title"
         const val VOTE_AVERAGE_COLUMN = "vote_average"
         const val VOTE_COUNT_COLUMN = "vote_count"
+        fun getPageLabel(genreId: Long): String = TABLE_NAME+genreId
     }
 }

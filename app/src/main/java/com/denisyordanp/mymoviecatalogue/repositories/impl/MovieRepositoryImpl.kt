@@ -1,6 +1,11 @@
 package com.denisyordanp.mymoviecatalogue.repositories.impl
 
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import com.denisyordanp.mymoviecatalogue.database.AppDatabase
 import com.denisyordanp.mymoviecatalogue.database.MoviesDao
+import com.denisyordanp.mymoviecatalogue.mediator.MovieRemoteMediator
 import com.denisyordanp.mymoviecatalogue.network.MovieService
 import com.denisyordanp.mymoviecatalogue.repositories.MovieRepository
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Movie
@@ -10,7 +15,8 @@ import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(
     private val service: MovieService,
-    private val movieDao: MoviesDao
+    private val movieDao: MoviesDao,
+    private val database: AppDatabase
 ) : MovieRepository {
 
     override suspend fun reloadMovies(genreId: Long) {
@@ -25,4 +31,15 @@ class MovieRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    @OptIn(ExperimentalPagingApi::class)
+    override fun getMoviesPager(genreId: Long) = Pager(
+        config = PagingConfig(pageSize = 20),
+        remoteMediator = MovieRemoteMediator(
+            service, database
+        ).setGenreId(genreId),
+        pagingSourceFactory = {
+            movieDao.getMoviesPaging(genreId)
+        }
+    )
 }
