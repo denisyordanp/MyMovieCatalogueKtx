@@ -5,5 +5,5 @@ import com.denisyordanp.mymoviecatalogue.schemas.ui.Movie
 import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
-    fun getMovies(genreId: Long, isForce: Boolean): Flow<PagingData<Movie>>
+    fun getMovies(genreId: Long): Flow<PagingData<Movie>>
 }

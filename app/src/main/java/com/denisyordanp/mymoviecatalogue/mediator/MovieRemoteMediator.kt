@@ -19,11 +19,10 @@ class MovieRemoteMediator(
     private val service: MovieService,
     private val database: AppDatabase,
     private val genreId: Long,
-    private val isForce: Boolean,
 ) : RemoteMediator<Int, Movie>() {
 
     override suspend fun initialize(): InitializeAction {
-        return if (isForce || isReachCachedTimeout()) {
+        return if (isReachCachedTimeout()) {
             InitializeAction.LAUNCH_INITIAL_REFRESH
         } else {
             InitializeAction.SKIP_INITIAL_REFRESH
