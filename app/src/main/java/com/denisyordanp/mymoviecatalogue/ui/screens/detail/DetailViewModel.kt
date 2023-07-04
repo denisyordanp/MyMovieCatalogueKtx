@@ -2,7 +2,6 @@ package com.denisyordanp.mymoviecatalogue.ui.screens.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.cachedIn
 import com.denisyordanp.mymoviecatalogue.tools.StackTrace
 import com.denisyordanp.mymoviecatalogue.usecase.GetMovieDetail
 import com.denisyordanp.mymoviecatalogue.usecase.GetReviews
@@ -11,7 +10,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -97,41 +95,13 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    fun loadReviews(movieId: Long, isForce: Boolean) {
+    private fun loadReviews(movieId: Long, isForce: Boolean) {
         viewModelScope.launch {
-            getReviews(movieId, isForce)
-                .map {
-                    val currentState = _viewState.value
-                    currentState.copy(
-                        reviewsViewState = currentState.reviewsViewState.copy(
-                            reviews = flowOf(it).cachedIn(viewModelScope),
-                            isLoading = false,
-                            error = null
-                        )
-                    )
-                }.onStart {
-                    val currentState = _viewState.value
-                    emit(
-                        currentState.copy(
-                            reviewsViewState = currentState.reviewsViewState.copy(
-                                isLoading = true
-                            )
-                        )
-                    )
-                }.catch {
-                    StackTrace.printStackTrace(it)
-                    val currentState = _viewState.value
-                    emit(
-                        currentState.copy(
-                            reviewsViewState = currentState.reviewsViewState.copy(
-                                error = it,
-                                isLoading = false
-                            )
-                        )
-                    )
-                }.collect {
-                    _viewState.emit(it)
-                }
+            _viewState.emit(
+                _viewState.value.copy(
+                    reviews = getReviews(movieId, isForce)
+                )
+            )
         }
     }
 }

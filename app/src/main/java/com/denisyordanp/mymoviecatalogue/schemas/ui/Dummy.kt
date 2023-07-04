@@ -2,7 +2,6 @@ package com.denisyordanp.mymoviecatalogue.schemas.ui
 
 import androidx.paging.PagingData
 import com.denisyordanp.mymoviecatalogue.ui.screens.detail.DetailViewState
-import com.denisyordanp.mymoviecatalogue.ui.screens.detail.ReviewsViewState
 import com.denisyordanp.mymoviecatalogue.ui.screens.detail.VideosViewState
 import kotlinx.coroutines.flow.flowOf
 
@@ -85,11 +84,7 @@ object Dummy {
 
     fun getDetailViewState() = DetailViewState.idle().copy(
         movieDetail = getMovieDetail(),
-        reviewsViewState = getReviewsViewState(),
-        videosViewState = getVideoViewState()
-    )
-
-    fun getReviewsViewState() = ReviewsViewState.idle().copy(
+        videosViewState = getVideoViewState(),
         reviews = getReviews()
     )
 
