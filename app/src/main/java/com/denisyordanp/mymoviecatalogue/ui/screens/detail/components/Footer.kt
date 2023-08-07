@@ -20,23 +20,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
+import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Dummy
+import com.denisyordanp.mymoviecatalogue.schemas.ui.Review
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Video
 import com.denisyordanp.mymoviecatalogue.ui.components.ErrorContent
 import com.denisyordanp.mymoviecatalogue.ui.components.ReviewItem
 import com.denisyordanp.mymoviecatalogue.ui.components.VideoItem
-import com.denisyordanp.mymoviecatalogue.ui.screens.detail.ReviewsViewState
 import com.denisyordanp.mymoviecatalogue.ui.screens.detail.VideosViewState
 import com.denisyordanp.mymoviecatalogue.ui.theme.MyMovieCatalogueTheme
+import kotlinx.coroutines.flow.Flow
 
 
 @Composable
 fun Footer(
-    reviewsViewState: ReviewsViewState,
+    reviews: Flow<PagingData<Review>>,
     videosViewState: VideosViewState,
     onMoreReviewClicked: () -> Unit,
     onVideosRetry: () -> Unit,
-    onReviewRetry: () -> Unit,
     onVideoClicked: (video: Video) -> Unit
 ) {
     Column {
@@ -46,20 +50,26 @@ fun Footer(
             onVideoClicked = onVideoClicked
         )
         Reviews(
-            reviewsViewState = reviewsViewState,
+            reviews = reviews,
             onMoreReviewClicked = onMoreReviewClicked,
-            onRetryError = onReviewRetry
         )
     }
 }
 
 @Composable
 private fun Reviews(
-    reviewsViewState: ReviewsViewState,
+    reviews: Flow<PagingData<Review>>,
     onMoreReviewClicked: () -> Unit,
-    onRetryError: () -> Unit
 ) {
-    if (reviewsViewState.error != null || reviewsViewState.reviews.isNotEmpty()) {
+    val reviewsPaging = reviews.collectAsLazyPagingItems()
+    val loadState = reviewsPaging.loadState.mediator
+    val isError = loadState?.refresh is LoadState.Error || loadState?.append is LoadState.Error
+    val error = if (loadState?.append is LoadState.Error)
+        (loadState.append as? LoadState.Error)?.error
+    else
+        (loadState?.refresh as? LoadState.Error)?.error
+
+    if (isError || reviewsPaging.itemCount >= 1) {
         Column(
             modifier = Modifier
                 .padding(16.dp)
@@ -71,9 +81,9 @@ private fun Reviews(
             )
             Spacer(modifier = Modifier.height(8.dp))
             ReviewContent(
-                reviewsViewState = reviewsViewState,
+                reviewsPaging = reviewsPaging,
+                error = error,
                 onMoreReviewClicked = onMoreReviewClicked,
-                onRetryError = onRetryError
             )
         }
     }
@@ -81,24 +91,30 @@ private fun Reviews(
 
 @Composable
 private fun ReviewContent(
-    reviewsViewState: ReviewsViewState,
+    reviewsPaging: LazyPagingItems<Review>,
+    error: Throwable?,
     onMoreReviewClicked: () -> Unit,
-    onRetryError: () -> Unit
 ) {
-    if (reviewsViewState.error != null) {
+    if (error != null) {
         ErrorContent(
             modifier = Modifier.fillMaxWidth(),
-            error = reviewsViewState.error,
-            onRetryError = onRetryError
+            error = error,
+            onRetryError = {
+                reviewsPaging.refresh()
+            }
         )
     } else {
-        if (reviewsViewState.reviews.size >= 3) {
+        if (reviewsPaging.itemCount >= 3) {
             repeat(3) {
-                ReviewItem(review = reviewsViewState.reviews[it], isShortedContent = true)
+                reviewsPaging[it]?.let { review ->
+                    ReviewItem(review = review, isShortedContent = true)
+                }
             }
         } else {
-            reviewsViewState.reviews.forEach {
-                ReviewItem(review = it, isShortedContent = true)
+            repeat(reviewsPaging.itemCount) {
+                reviewsPaging[it]?.let { review ->
+                    ReviewItem(review = review, isShortedContent = true)
+                }
             }
         }
         Spacer(modifier = Modifier.height(4.dp))
@@ -166,11 +182,10 @@ private fun Videos(
 private fun Preview() {
     MyMovieCatalogueTheme {
         Footer(
-            reviewsViewState = Dummy.getReviewsViewState(),
+            reviews = Dummy.getReviews(),
             videosViewState = Dummy.getVideoViewState(),
             onMoreReviewClicked = {},
             onVideosRetry = {},
-            onReviewRetry = {},
             onVideoClicked = {}
         )
     }

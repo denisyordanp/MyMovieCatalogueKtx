@@ -80,6 +80,7 @@ dependencies {
     implementation "androidx.hilt:hilt-navigation-compose:$hiltNavigationComposeVersion"
     implementation "com.google.accompanist:accompanist-swiperefresh:$accompanistVersion"
     implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion"
+    implementation "androidx.paging:paging-compose:$pagingComposeVersion"
 
     // Network
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
@@ -89,12 +90,16 @@ dependencies {
     // Database
     implementation "androidx.room:room-runtime:$roomVersion"
     implementation "androidx.room:room-ktx:$roomVersion"
+    implementation "androidx.room:room-paging:$roomVersion"
     kapt "org.xerial:sqlite-jdbc:$sqliteJdbc"
     kapt "androidx.room:room-compiler:$roomVersion"
 
     // Hilt
     implementation "com.google.dagger:hilt-android:$hiltVersion"
     kapt "com.google.dagger:hilt-compiler:$hiltVersion"
+
+    // Paging
+    implementation "androidx.paging:paging-runtime:$pagingVersion"
 
     // Test
     testImplementation "junit:junit:$junitVersion"

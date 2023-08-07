@@ -1,19 +1,20 @@
 package com.denisyordanp.mymoviecatalogue.database
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Upsert
 import com.denisyordanp.mymoviecatalogue.schemas.database.Genre
 import com.denisyordanp.mymoviecatalogue.schemas.database.Movie
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MoviesDao {
+    @Query("SELECT * FROM '${Movie.TABLE_NAME}' WHERE ${Genre.ID_COLUMN} = :genreId ORDER BY ${Movie.PAGE_COLUMN}")
+    fun getMovies(genreId: Long): PagingSource<Int, Movie>
 
-    @Query("SELECT * FROM '${Movie.TABLE_NAME}' WHERE ${Genre.ID_COLUMN} = :genreId")
-    fun getMovies(genreId: Long): Flow<List<Movie>>
+    @Query("DELETE FROM '${Movie.TABLE_NAME}' WHERE ${Genre.ID_COLUMN} = :genreId")
+    suspend fun clearAll(genreId: Long)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertMovies(genres: List<Movie>)
+    @Upsert
+    suspend fun insertMovies(movies: List<Movie>)
 }

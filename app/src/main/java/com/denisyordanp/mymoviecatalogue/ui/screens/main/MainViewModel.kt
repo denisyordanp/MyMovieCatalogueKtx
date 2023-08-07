@@ -2,10 +2,10 @@ package com.denisyordanp.mymoviecatalogue.ui.screens.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.denisyordanp.mymoviecatalogue.usecase.GetGenres
-import com.denisyordanp.mymoviecatalogue.usecase.GetMovies
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Genre
 import com.denisyordanp.mymoviecatalogue.tools.StackTrace
+import com.denisyordanp.mymoviecatalogue.usecase.GetGenres
+import com.denisyordanp.mymoviecatalogue.usecase.GetMovies
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -32,76 +32,41 @@ class MainViewModel @Inject constructor(
                     currentState.copy(
                         error = null,
                         selectedGenre = selectedGenre,
-                        genreViewState = currentState.genreViewState.copy(
-                            genres = it,
-                            isLoading = false,
-                            error = null
-                        )
+                        genres = it,
+                        isLoading = false,
                     )
                 }.onStart {
-                    val currentState = _viewState.value
                     emit(
-                        currentState.copy(
-                            genreViewState = currentState.genreViewState.copy(
-                                isLoading = true
-                            )
+                        _viewState.value.copy(
+                            isLoading = true
                         )
                     )
                 }.catch {
                     StackTrace.printStackTrace(it)
-                    val currentState = _viewState.value
                     emit(
-                        currentState.copy(
-                            genreViewState = currentState.genreViewState.copy(
-                                isLoading = false,
-                                error = it
-                            )
+                        _viewState.value.copy(
+                            isLoading = false,
+                            error = it
                         )
                     )
                 }.collect {
                     _viewState.emit(it)
-                    if (it.genreViewState.error == null && it.selectedGenre != null) {
-                        loadMovies(genreId = it.selectedGenre.id, isForce = isForce)
+                    if (it.error == null && it.selectedGenre != null) {
+                        loadMovies(genreId = it.selectedGenre.id)
                     }
                 }
         }
     }
 
-    fun loadMovies(genreId: Long? = null, isForce: Boolean) {
+    private fun loadMovies(genreId: Long? = null) {
         viewModelScope.launch {
-            val currentGenreId = genreId ?: _viewState.value.selectedGenre!!.id
-            getMovies(genreId = currentGenreId, isForce = isForce)
-                .map {
-                    val currentState = _viewState.value
-                    currentState.copy(
-                        movieViewState = currentState.movieViewState.copy(
-                            movies = it,
-                            isLoading = false
-                        )
-                    )
-                }.onStart {
-                    val currentState = _viewState.value
-                    emit(
-                        currentState.copy(
-                            movieViewState = currentState.movieViewState.copy(
-                                isLoading = true
-                            )
-                        )
-                    )
-                }.catch {
-                    StackTrace.printStackTrace(it)
-                    val currentState = _viewState.value
-                    emit(
-                        currentState.copy(
-                            movieViewState = currentState.movieViewState.copy(
-                                isLoading = false,
-                                error = it
-                            )
-                        )
-                    )
-                }.collect {
-                    _viewState.emit(it)
-                }
+            val currentState = _viewState.value
+            val currentGenreId = genreId ?: currentState.selectedGenre!!.id
+            _viewState.emit(
+                currentState.copy(
+                    movies = getMovies(genreId = currentGenreId)
+                )
+            )
         }
     }
 
@@ -112,7 +77,7 @@ class MainViewModel @Inject constructor(
                     selectedGenre = genre
                 )
             )
-            loadMovies(genre.id, false)
+            loadMovies(genre.id)
         }
     }
 }

@@ -18,7 +18,10 @@ data class Movie(
     val voteAverage: Double,
     val voteCount: Long
 ) {
-    fun toEntity(genreId: Long): DbMovie {
+    fun toEntity(
+        genreId: Long,
+        page: Int,
+    ): DbMovie {
         return DbMovie(
             id = id,
             overview = overview,
@@ -27,7 +30,8 @@ data class Movie(
             title = title,
             voteAverage = voteAverage,
             voteCount = voteCount,
-            genreId = genreId
+            genreId = genreId,
+            page = page
         )
     }
 }

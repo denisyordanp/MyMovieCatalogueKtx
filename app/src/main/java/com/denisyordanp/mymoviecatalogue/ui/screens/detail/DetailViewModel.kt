@@ -95,41 +95,13 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    fun loadReviews(movieId: Long, isForce: Boolean) {
+    private fun loadReviews(movieId: Long, isForce: Boolean) {
         viewModelScope.launch {
-            getReviews(movieId, isForce)
-                .map {
-                    val currentState = _viewState.value
-                    currentState.copy(
-                        reviewsViewState = currentState.reviewsViewState.copy(
-                            reviews = it,
-                            isLoading = false,
-                            error = null
-                        )
-                    )
-                }.onStart {
-                    val currentState = _viewState.value
-                    emit(
-                        currentState.copy(
-                            reviewsViewState = currentState.reviewsViewState.copy(
-                                isLoading = true
-                            )
-                        )
-                    )
-                }.catch {
-                    StackTrace.printStackTrace(it)
-                    val currentState = _viewState.value
-                    emit(
-                        currentState.copy(
-                            reviewsViewState = currentState.reviewsViewState.copy(
-                                error = it,
-                                isLoading = false
-                            )
-                        )
-                    )
-                }.collect {
-                    _viewState.emit(it)
-                }
+            _viewState.emit(
+                _viewState.value.copy(
+                    reviews = getReviews(movieId, isForce)
+                )
+            )
         }
     }
 }

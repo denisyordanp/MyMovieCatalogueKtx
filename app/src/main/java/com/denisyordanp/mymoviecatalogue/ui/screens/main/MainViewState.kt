@@ -1,22 +1,25 @@
 package com.denisyordanp.mymoviecatalogue.ui.screens.main
 
+import androidx.paging.PagingData
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Genre
+import com.denisyordanp.mymoviecatalogue.schemas.ui.Movie
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 
 data class MainViewState(
     val selectedGenre: Genre?,
     val error: Throwable?,
-    val genreViewState: GenreViewState,
-    val movieViewState: MovieViewState
+    val genres: List<Genre>,
+    val isLoading: Boolean,
+    val movies: Flow<PagingData<Movie>>,
 ) {
-
-    val isLoading: Boolean = movieViewState.isLoading || genreViewState.isLoading
-
     companion object {
         fun idle() = MainViewState(
-            genreViewState = GenreViewState.idle(),
-            movieViewState = MovieViewState.idle(),
             selectedGenre = null,
             error = null,
+            movies = emptyFlow(),
+            genres = emptyList(),
+            isLoading = false
         )
     }
 }

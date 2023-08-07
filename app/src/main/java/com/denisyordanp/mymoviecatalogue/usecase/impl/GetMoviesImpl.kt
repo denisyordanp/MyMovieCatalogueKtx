@@ -1,24 +1,17 @@
 package com.denisyordanp.mymoviecatalogue.usecase.impl
 
-import com.denisyordanp.mymoviecatalogue.usecase.GetMovies
+import androidx.paging.PagingData
 import com.denisyordanp.mymoviecatalogue.repositories.MovieRepository
-import kotlinx.coroutines.flow.flow
+import com.denisyordanp.mymoviecatalogue.usecase.GetMovies
+import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 class GetMoviesImpl @Inject constructor(
-    private val repository: MovieRepository
+    private val repository: MovieRepository,
 ) : GetMovies {
-    override fun invoke(genreId: Long, isForce: Boolean) = flow {
-        if (isForce) {
-            repository.reloadMovies(genreId)
-        }
+    override fun invoke(genreId: Long?) = if (genreId == null || genreId == 0L) {
+        flowOf(PagingData.empty())
+    } else {
         repository.getMovies(genreId)
-            .collect {
-                if (it.isEmpty()) {
-                    repository.reloadMovies(genreId)
-                } else {
-                    emit(it)
-                }
-            }
     }
 }

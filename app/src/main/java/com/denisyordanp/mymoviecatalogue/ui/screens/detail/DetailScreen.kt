@@ -51,7 +51,7 @@ fun DetailScreen(
         sheetShape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
         sheetState = sheetState,
         sheetContent = {
-            ReviewBottomSheet(reviews = state.value.reviewsViewState.reviews)
+            ReviewBottomSheet(reviews = state.value.reviews)
         },
         content = {
             DetailScreenContent(
@@ -71,9 +71,6 @@ fun DetailScreen(
                 onVideosRetry = {
                     viewModel.loadVideos(movieId = movieId, isForce = true)
                 },
-                onReviewRetry = {
-                    viewModel.loadReviews(movieId = movieId, isForce = true)
-                },
                 onVideoClicked = onVideoClicked
             )
         }
@@ -88,7 +85,6 @@ private fun DetailScreenContent(
     onBackPressed: () -> Unit,
     onMoreReviewsClicked: () -> Unit,
     onVideosRetry: () -> Unit,
-    onReviewRetry: () -> Unit,
     onVideoClicked: (video: Video) -> Unit
 ) {
     Scaffold(
@@ -127,11 +123,10 @@ private fun DetailScreenContent(
                                 }
                                 item {
                                     Footer(
-                                        reviewsViewState = state.reviewsViewState,
+                                        reviews = state.reviews,
                                         videosViewState = state.videosViewState,
                                         onMoreReviewClicked = onMoreReviewsClicked,
                                         onVideosRetry = onVideosRetry,
-                                        onReviewRetry = onReviewRetry,
                                         onVideoClicked = onVideoClicked
                                     )
                                 }
@@ -155,7 +150,6 @@ private fun Preview() {
             onBackPressed = {},
             onMoreReviewsClicked = {},
             onVideosRetry = {},
-            onReviewRetry = {},
             onVideoClicked = {}
         )
     }
