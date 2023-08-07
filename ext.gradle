@@ -35,4 +35,5 @@ ext {
   junitVersion = '4.13.2'
   junitExtVersion = '1.1.5'
   espressoVersion = '3.5.1'
+  mockitoVersion = '2.1.0'
 }
