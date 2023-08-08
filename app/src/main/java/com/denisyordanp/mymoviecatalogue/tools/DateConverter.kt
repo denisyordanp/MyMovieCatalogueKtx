@@ -7,15 +7,14 @@ import java.util.Locale
 fun String.convertFormat(from: DateFormat, to: DateFormat): String {
     if (this.isBlank()) return ""
 
-    val fromFormat = DateTimeFormatter.ofPattern(from.format, Locale.getDefault())
-    val toFormat = DateTimeFormatter.ofPattern(to.format, Locale.getDefault())
-
     return try {
+        val fromFormat = DateTimeFormatter.ofPattern(from.format, Locale.getDefault())
+        val toFormat = DateTimeFormatter.ofPattern(to.format, Locale.getDefault())
+
         val localDateTime = LocalDate.parse(this, fromFormat)
-        localDateTime?.let {
-            return localDateTime.format(toFormat)
-        } ?: ""
+        localDateTime.format(toFormat)
     } catch (e: Exception) {
+        StackTrace.printStackTrace(e)
         ""
     }
 }
