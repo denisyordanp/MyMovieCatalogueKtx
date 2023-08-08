@@ -15,6 +15,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.denisyordanp.mymoviecatalogue.R
+import com.denisyordanp.mymoviecatalogue.tools.isAuthError
 import com.denisyordanp.mymoviecatalogue.ui.theme.MyMovieCatalogueTheme
 
 @Composable
@@ -23,14 +24,20 @@ fun ErrorContent(
     error: Throwable,
     onRetryError: () -> Unit
 ) {
+    val isAuthError = error.isAuthError()
+    val title = if (isAuthError) R.string.auth_error else R.string.something_wrong
+    val message =
+        if (isAuthError) R.string.please_put_your_auth else R.string.please_try_again_later
+    val currentError = if (isAuthError) null else error
+
     Box(
         modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
         GeneralError(
-            title = stringResource(R.string.something_wrong),
-            desc = stringResource(R.string.please_try_again_later),
-            error = error,
+            title = stringResource(title),
+            desc = stringResource(message),
+            error = currentError,
             onRetry = onRetryError
         )
     }

@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">My Movie Catalogue</string>
     <string name="something_wrong">Something went wrong</string>
+    <string name="auth_error">Unauthorized</string>
     <string name="please_try_again_later">Please try again later.</string>
+    <string name="please_put_your_auth">Please put your AUTH_KEY at local.properties file.</string>
 </resources>
