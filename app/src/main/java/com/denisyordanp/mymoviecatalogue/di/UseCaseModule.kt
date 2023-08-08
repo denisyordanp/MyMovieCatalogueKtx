@@ -1,12 +1,14 @@
 package com.denisyordanp.mymoviecatalogue.di
 
 import com.denisyordanp.mymoviecatalogue.usecase.ChangeFavorite
+import com.denisyordanp.mymoviecatalogue.usecase.GetFavorites
 import com.denisyordanp.mymoviecatalogue.usecase.GetGenres
 import com.denisyordanp.mymoviecatalogue.usecase.GetMovieDetail
 import com.denisyordanp.mymoviecatalogue.usecase.GetMovies
 import com.denisyordanp.mymoviecatalogue.usecase.GetReviews
 import com.denisyordanp.mymoviecatalogue.usecase.GetVideos
 import com.denisyordanp.mymoviecatalogue.usecase.impl.ChangeFavoriteImpl
+import com.denisyordanp.mymoviecatalogue.usecase.impl.GetFavoritesImpl
 import com.denisyordanp.mymoviecatalogue.usecase.impl.GetGenresImpl
 import com.denisyordanp.mymoviecatalogue.usecase.impl.GetMovieDetailImpl
 import com.denisyordanp.mymoviecatalogue.usecase.impl.GetMoviesImpl
@@ -50,4 +52,9 @@ abstract class UseCaseModule {
     abstract fun bindAddFavorite(
         addFavoriteImpl: ChangeFavoriteImpl
     ): ChangeFavorite
+
+    @Binds
+    abstract fun bindGetFavorite(
+        getFavoritesImpl: GetFavoritesImpl
+    ): GetFavorites
 }
