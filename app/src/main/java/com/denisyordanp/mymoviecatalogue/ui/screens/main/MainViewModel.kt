@@ -52,19 +52,19 @@ class MainViewModel @Inject constructor(
                 }.collect {
                     _viewState.emit(it)
                     if (it.error == null && it.selectedGenre != null) {
-                        loadMovies(genreId = it.selectedGenre.id)
+                        loadMovies(genreId = it.selectedGenre.id, isForce = isForce)
                     }
                 }
         }
     }
 
-    private fun loadMovies(genreId: Long? = null) {
+    private fun loadMovies(genreId: Long? = null, isForce: Boolean) {
         viewModelScope.launch {
             val currentState = _viewState.value
             val currentGenreId = genreId ?: currentState.selectedGenre!!.id
             _viewState.emit(
                 currentState.copy(
-                    movies = getMovies(genreId = currentGenreId)
+                    movies = getMovies(genreId = currentGenreId, isForce = isForce)
                 )
             )
         }
@@ -77,7 +77,7 @@ class MainViewModel @Inject constructor(
                     selectedGenre = genre
                 )
             )
-            loadMovies(genre.id)
+            loadMovies(genreId = genre.id, isForce = false)
         }
     }
 }

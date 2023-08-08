@@ -49,7 +49,7 @@ fun MainScreen(
     MainScreenContent(
         state = viewState.value,
         onRefresh = {
-            viewModel.loadGenres(true)
+            viewModel.loadGenres(isForce = true)
         },
         onGenresRetryError = {
             viewModel.loadGenres(isForce = true)

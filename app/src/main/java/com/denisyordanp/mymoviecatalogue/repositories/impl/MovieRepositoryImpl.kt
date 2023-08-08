@@ -17,14 +17,14 @@ class MovieRepositoryImpl @Inject constructor(
     private val database: AppDatabase
 ) : MovieRepository {
     @OptIn(ExperimentalPagingApi::class)
-    override fun getMovies(genreId: Long) = Pager(
+    override fun getMovies(genreId: Long, isForce: Boolean) = Pager(
         config = PagingConfig(
             pageSize = Movies.PAGE_SIZE,
             initialLoadSize = Movies.PAGE_SIZE,
             prefetchDistance = 10
         ),
         remoteMediator = MovieRemoteMediator(
-            service = service, database = database, genreId = genreId
+            service = service, database = database, genreId = genreId, isForce = isForce
         ),
         pagingSourceFactory = {
             database.movieDao().getMovies(genreId)

@@ -9,9 +9,9 @@ import javax.inject.Inject
 class GetMoviesImpl @Inject constructor(
     private val repository: MovieRepository,
 ) : GetMovies {
-    override fun invoke(genreId: Long?) = if (genreId == null || genreId == 0L) {
+    override fun invoke(genreId: Long?, isForce: Boolean) = if (genreId == null || genreId == 0L) {
         flowOf(PagingData.empty())
     } else {
-        repository.getMovies(genreId)
+        repository.getMovies(genreId, isForce)
     }
 }

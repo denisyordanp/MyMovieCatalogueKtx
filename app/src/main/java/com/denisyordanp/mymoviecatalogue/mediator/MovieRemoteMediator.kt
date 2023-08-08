@@ -18,7 +18,17 @@ class MovieRemoteMediator(
     private val service: MovieService,
     private val database: AppDatabase,
     private val genreId: Long,
+    private val isForce: Boolean
 ) : RemoteMediator<Int, Movie>() {
+
+    override suspend fun initialize(): InitializeAction {
+        val remoteKeysByGenre = database.remoteKeysDao().getRemoteKeyByGenreId(genreId)
+        return if (remoteKeysByGenre.isNullOrEmpty() || isForce) {
+            InitializeAction.LAUNCH_INITIAL_REFRESH
+        } else {
+            InitializeAction.SKIP_INITIAL_REFRESH
+        }
+    }
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Movie>): MediatorResult {
         try {
@@ -48,22 +58,24 @@ class MovieRemoteMediator(
 
             database.withTransaction {
                 if (loadType == LoadType.REFRESH) {
-                    database.remoteKeysDao().clearRemoteKeys()
+                    database.remoteKeysDao().clearRemoteKeys(genreId)
                     database.movieDao().clearAll(genreId)
                 }
                 val prevKey = if (page > 1) page - 1 else null
                 val nextKey = if (endOfPaginationReached) null else page + 1
                 val remoteKeys = movies.map {
                     RemoteKeys(
-                        movieID = it.id,
+                        id = 0L,
+                        movieId = it.id,
                         prevKey = prevKey,
                         currentPage = page,
-                        nextKey = nextKey
+                        nextKey = nextKey,
+                        genreId = genreId
                     )
                 }
 
-                database.remoteKeysDao().insertAll(remoteKeys)
                 database.movieDao().insertMovies(movies.map { it.copy(page = page) })
+                database.remoteKeysDao().insertAll(remoteKeys)
             }
             return MediatorResult.Success(
                 endOfPaginationReached = endOfPaginationReached
