@@ -6,8 +6,10 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
@@ -16,7 +18,9 @@ import androidx.core.view.WindowCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.denisyordanp.mymoviecatalogue.ui.components.GeneralBottomBar
 import com.denisyordanp.mymoviecatalogue.ui.screens.detail.DetailScreen
+import com.denisyordanp.mymoviecatalogue.ui.screens.favorite.FavoriteScreen
 import com.denisyordanp.mymoviecatalogue.ui.screens.main.MainScreen
 import com.denisyordanp.mymoviecatalogue.ui.theme.MyMovieCatalogueTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -33,34 +37,47 @@ class MainActivity : ComponentActivity() {
                 SetupSystemUI()
                 val mainNavController = rememberNavController()
 
-                NavHost(
+                Scaffold(
                     modifier = Modifier
                         .systemBarsPadding(),
-                    navController = mainNavController,
-                    startDestination = MainDestinations.MAIN_SCREEN
-                ) {
-                    composable(route = MainDestinations.MAIN_SCREEN) {
-                        MainScreen(
-                            onMovieClicked = {
-                                mainNavController.navigate(MainDestinations.detailScreen(it.id))
-                            }
-                        )
+                    bottomBar = {
+                        GeneralBottomBar(mainNavController = mainNavController)
                     }
-
-                    composable(
-                        route = MainDestinations.DETAIL_SCREEN,
-                        arguments = MainDestinations.detailScreenArguments
-                    ) { backStack ->
-                        backStack.arguments?.getLong(MainDestinations.MOVIE_ID)?.let { movieId ->
-                            DetailScreen(
-                                movieId = movieId,
-                                onBackPressed = {
-                                    mainNavController.navigateUp()
-                                },
-                                onVideoClicked = {
-                                    handleYoutubeIntent(it.key)
+                ) { padding ->
+                    NavHost(
+                        modifier = Modifier.padding(padding),
+                        navController = mainNavController,
+                        startDestination = MainDestinations.MAIN_SCREEN
+                    ) {
+                        composable(route = MainDestinations.MAIN_SCREEN) {
+                            MainScreen(
+                                onMovieClicked = {
+                                    mainNavController.navigate(MainDestinations.detailScreen(it.id))
                                 }
                             )
+                        }
+
+                        composable(
+                            route = MainDestinations.FAVORITE_SCREEN,
+                        ) {
+                            FavoriteScreen()
+                        }
+
+                        composable(
+                            route = MainDestinations.DETAIL_SCREEN,
+                            arguments = MainDestinations.detailScreenArguments
+                        ) { backStack ->
+                            backStack.arguments?.getLong(MainDestinations.MOVIE_ID)?.let { movieId ->
+                                DetailScreen(
+                                    movieId = movieId,
+                                    onBackPressed = {
+                                        mainNavController.navigateUp()
+                                    },
+                                    onVideoClicked = {
+                                        handleYoutubeIntent(it.key)
+                                    }
+                                )
+                            }
                         }
                     }
                 }
