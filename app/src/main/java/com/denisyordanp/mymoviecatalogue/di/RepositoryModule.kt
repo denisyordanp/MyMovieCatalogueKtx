@@ -1,10 +1,12 @@
 package com.denisyordanp.mymoviecatalogue.di
 
+import com.denisyordanp.mymoviecatalogue.repositories.FavoriteRepository
 import com.denisyordanp.mymoviecatalogue.repositories.GenreRepository
 import com.denisyordanp.mymoviecatalogue.repositories.MovieDetailRepository
 import com.denisyordanp.mymoviecatalogue.repositories.MovieRepository
 import com.denisyordanp.mymoviecatalogue.repositories.ReviewsRepository
 import com.denisyordanp.mymoviecatalogue.repositories.VideosRepository
+import com.denisyordanp.mymoviecatalogue.repositories.impl.FavoriteRepositoryImpl
 import com.denisyordanp.mymoviecatalogue.repositories.impl.GenreRepositoryImpl
 import com.denisyordanp.mymoviecatalogue.repositories.impl.MovieDetailRepositoryImpl
 import com.denisyordanp.mymoviecatalogue.repositories.impl.MovieRepositoryImpl
@@ -43,4 +45,9 @@ abstract class RepositoryModule {
     abstract fun bindVideoRepository(
         videosRepositoryImpl: VideosRepositoryImpl
     ): VideosRepository
+
+    @Binds
+    abstract fun bindFavoriteRepository(
+        favoriteRepositoryImpl: FavoriteRepositoryImpl
+    ): FavoriteRepository
 }
