@@ -3,6 +3,7 @@ package com.denisyordanp.mymoviecatalogue.di
 import android.content.Context
 import androidx.room.Room
 import com.denisyordanp.mymoviecatalogue.database.AppDatabase
+import com.denisyordanp.mymoviecatalogue.database.FavoritesDao
 import com.denisyordanp.mymoviecatalogue.database.GenresDao
 import com.denisyordanp.mymoviecatalogue.database.MovieDetailDao
 import com.denisyordanp.mymoviecatalogue.database.MovieGenreDao
@@ -49,4 +50,7 @@ object DatabaseModule {
 
     @Provides
     fun provideVideosDao(appDatabase: AppDatabase): VideosDao = appDatabase.videosDao()
+
+    @Provides
+    fun provideFavoritesDao(appDatabase: AppDatabase): FavoritesDao = appDatabase.favoritesDao()
 }
