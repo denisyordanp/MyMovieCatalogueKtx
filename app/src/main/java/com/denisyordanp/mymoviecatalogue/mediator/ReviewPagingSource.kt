@@ -23,17 +23,18 @@ class ReviewPagingSource @Inject constructor(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Review> {
         return try {
             val page = params.key ?: 1
-            val response = service.fetchReviews(movieId = movieId, page = page).toEntity(movieId)
+            val response = service.fetchReviews(movieId = movieId, page = page)
+            val isEndOfPage = response.page >= response.totalPages
+            val converted = response.toEntity(movieId)
                 .map { it.toUi() }
 
             LoadResult.Page(
-                data = response,
+                data = converted,
                 prevKey = if (page == 1) null else page.minus(1),
-                nextKey = if (response.isEmpty()) null else page.plus(1),
+                nextKey = if (isEndOfPage) null else page.plus(1),
             )
         } catch (e: Exception) {
             LoadResult.Error(e)
         }
     }
-
 }
