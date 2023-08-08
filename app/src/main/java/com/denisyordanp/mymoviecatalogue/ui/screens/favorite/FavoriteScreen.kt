@@ -8,9 +8,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Dummy
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Movie
 import com.denisyordanp.mymoviecatalogue.ui.components.MovieItem
@@ -18,11 +20,13 @@ import com.denisyordanp.mymoviecatalogue.ui.theme.MyMovieCatalogueTheme
 
 @Composable
 fun FavoriteScreen(
+    viewModel: FavoriteViewModel = hiltViewModel(),
     onMovieClicked: (movie: Movie) -> Unit
 ) {
+    val favorites = viewModel.favorites.collectAsState(initial = emptyList())
 
     FavoriteScreenContent(
-        movies = Dummy.getMovies(),
+        movies = favorites.value,
         onMovieClicked = onMovieClicked
     )
 }
