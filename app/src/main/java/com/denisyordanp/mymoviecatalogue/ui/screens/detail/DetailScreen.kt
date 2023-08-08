@@ -71,7 +71,10 @@ fun DetailScreen(
                 onVideosRetry = {
                     viewModel.loadVideos(movieId = movieId, isForce = true)
                 },
-                onVideoClicked = onVideoClicked
+                onVideoClicked = onVideoClicked,
+                onFavoriteClicked = {
+                    viewModel.addMovieToFavorite()
+                }
             )
         }
     )
@@ -85,13 +88,16 @@ private fun DetailScreenContent(
     onBackPressed: () -> Unit,
     onMoreReviewsClicked: () -> Unit,
     onVideosRetry: () -> Unit,
-    onVideoClicked: (video: Video) -> Unit
+    onVideoClicked: (video: Video) -> Unit,
+    onFavoriteClicked: () -> Unit
 ) {
     Scaffold(
         topBar = {
             TopBar(
                 title = state.movieDetail?.title ?: "",
-                onBackPressed = onBackPressed
+                isFavorite = state.movieDetail?.isFavorite,
+                onBackPressed = onBackPressed,
+                onFavorite = onFavoriteClicked
             )
         },
         content = { padding ->
@@ -150,7 +156,8 @@ private fun Preview() {
             onBackPressed = {},
             onMoreReviewsClicked = {},
             onVideosRetry = {},
-            onVideoClicked = {}
+            onVideoClicked = {},
+            onFavoriteClicked = {}
         )
     }
 }
