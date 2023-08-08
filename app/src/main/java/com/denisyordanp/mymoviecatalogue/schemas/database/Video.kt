@@ -2,36 +2,19 @@ package com.denisyordanp.mymoviecatalogue.schemas.database
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.denisyordanp.mymoviecatalogue.tools.DateFormat
 import com.denisyordanp.mymoviecatalogue.tools.NetworkConfig
 import com.denisyordanp.mymoviecatalogue.tools.convertFormat
-
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Video as UiVideo
 
-@Entity(
-    tableName = Video.TABLE_NAME,
-    foreignKeys = [
-        ForeignKey(
-            entity = MovieDetail::class,
-            parentColumns = [MovieDetail.ID_COLUMN],
-            childColumns = [MovieDetail.ID_COLUMN],
-            onDelete = ForeignKey.CASCADE
-        )
-    ],
-    indices = [
-        Index(value = [Video.ID_COLUMN]),
-        Index(value = [MovieDetail.ID_COLUMN]),
-    ]
-)
+@Entity(tableName = Video.TABLE_NAME)
 data class Video(
     @PrimaryKey
     @ColumnInfo(name = ID_COLUMN)
     val id: String,
 
-    @ColumnInfo(name = MovieDetail.ID_COLUMN)
+    @ColumnInfo(name = ID_MOVIE_COLUMN)
     val movieId: Long,
 
     @ColumnInfo(name = KEY_COLUMN)
@@ -59,6 +42,7 @@ data class Video(
     companion object {
         const val TABLE_NAME = "video"
         const val ID_COLUMN = "id_video"
+        const val ID_MOVIE_COLUMN = "id_movie"
         const val KEY_COLUMN = "key"
         const val NAME_COLUMN = "name"
         const val PUBLISH_COLUMN = "publish"
