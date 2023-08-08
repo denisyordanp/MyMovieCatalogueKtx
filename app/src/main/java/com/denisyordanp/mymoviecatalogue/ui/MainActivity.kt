@@ -60,7 +60,11 @@ class MainActivity : ComponentActivity() {
                         composable(
                             route = MainDestinations.FAVORITE_SCREEN,
                         ) {
-                            FavoriteScreen()
+                            FavoriteScreen(
+                                onMovieClicked = {
+                                    mainNavController.navigate(MainDestinations.detailScreen(it.id))
+                                }
+                            )
                         }
 
                         composable(
