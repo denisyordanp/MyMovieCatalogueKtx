@@ -4,8 +4,6 @@ import com.denisyordanp.mymoviecatalogue.schemas.database.Video as DbVideo
 
 data class Video(
     val id: String,
-    val iso31661: String,
-    val iso6391: String,
     val key: String,
     val name: String,
     val official: Boolean,
