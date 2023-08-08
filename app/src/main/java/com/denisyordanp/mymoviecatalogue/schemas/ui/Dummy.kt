@@ -79,7 +79,9 @@ object Dummy {
         tagline = "The end of the road begins.",
         title = "Fast X",
         voteAverage = "7.283",
-        voteCount = 2040
+        voteCount = 2040,
+        posterPath = "/fiVW06jE7z9YnO4trhaMEdclSiC.jpg",
+        isFavorite = false
     )
 
     fun getDetailViewState() = DetailViewState.idle().copy(

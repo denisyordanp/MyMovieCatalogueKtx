@@ -26,6 +26,9 @@ data class MovieDetail(
     @ColumnInfo(name = BACKDROP_COLUMN)
     val backdropPath: String,
 
+    @ColumnInfo(name = POSTER_COLUMN)
+    val posterPath: String,
+
     @ColumnInfo(name = BUDGET_COLUMN)
     val budget: Long,
 
@@ -50,11 +53,12 @@ data class MovieDetail(
     @ColumnInfo(name = VOTE_COUNT_COLUMN)
     val voteCount: Long
 ) {
-    fun toUi(genres: List<Genre>): UiMovieDetail {
+    fun toUi(genres: List<Genre>, isFavorite: Boolean): UiMovieDetail {
         val convertedGenres = genres.map { it.toUi() }
         return UiMovieDetail(
             id = id,
             backdropPath = "${NetworkConfig.getImageBackdropUrl()}${backdropPath}",
+            posterPath = "${NetworkConfig.getImagePosterUrl()}${posterPath}",
             budget = budget.thousand(),
             genres = convertedGenres,
             overview = overview,
@@ -66,13 +70,15 @@ data class MovieDetail(
             tagline = tagline,
             title = title,
             voteAverage = voteAverage.oneDecimalFormat(),
-            voteCount = voteCount
+            voteCount = voteCount,
+            isFavorite = isFavorite
         )
     }
     companion object {
         const val TABLE_NAME = "movie_detail"
         const val ID_COLUMN = "id_movie_detail"
         const val BACKDROP_COLUMN = "backdrop"
+        const val POSTER_COLUMN = "poster"
         const val BUDGET_COLUMN = "budget"
         const val OVERVIEW_COLUMN = "overview"
         const val RELEASE_COLUMN = "release"
