@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flatMapMerge
+import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
@@ -31,8 +31,9 @@ class DetailViewModel @Inject constructor(
     val viewState = _viewState.asStateFlow()
 
     fun addMovieToFavorite() = viewModelScope.launch {
-        val movie = _viewState.value.movieDetail!!
-        changeFavorite(movie.toFavorite())
+        _viewState.value.movieDetail?.let {
+            changeFavorite(it.toFavorite())
+        }
     }
 
     fun loadMovieDetail(movieId: Long, isForce: Boolean) = viewModelScope.launch {
@@ -50,27 +51,32 @@ class DetailViewModel @Inject constructor(
                     error = null
                 )
             }
-            .flatMapMerge {
-                beginLoadVideos(movieId, isForce).map { videoState ->
-                    it.copy(
-                        videosViewState = videoState
+            .flatMapConcat {
+                if (it.movieDetail != null && it.reviews == DetailViewState.idle().reviews) {
+                    flowOf(
+                        it.copy(
+                            reviews = getReviews(movieId, isForce)
+                        )
                     )
+                } else flowOf(it)
+            }.flatMapConcat {
+                if (it.movieDetail != null) {
+                    beginLoadVideos(movieId, isForce).map { videosState ->
+                        it.copy(
+                            videosViewState = videosState,
+                        )
+                    }
+                } else {
+                    flowOf(it)
                 }
-            }
-            .flatMapMerge {
-                flowOf(
-                    it.copy(
-                        reviews = getReviews(movieId, isForce)
-                    )
-                )
-            }
-            .onStart {
+            }.onStart {
                 emit(
                     _viewState.value.copy(
                         isLoading = true
                     )
                 )
             }.catch {
+                print("error: $it")
                 StackTrace.printStackTrace(it)
                 emit(
                     _viewState.value.copy(
