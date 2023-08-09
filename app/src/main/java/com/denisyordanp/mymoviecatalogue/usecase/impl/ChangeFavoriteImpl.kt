@@ -8,5 +8,12 @@ import javax.inject.Inject
 class ChangeFavoriteImpl @Inject constructor(
     private val repository: FavoriteRepository
 ) : ChangeFavorite {
-    override suspend fun invoke(favorite: Favorite) = repository.changeFavorite(favorite)
+    override suspend fun invoke(favorite: Favorite) {
+        val isExist = repository.isExist(favorite.toDb())
+        if (isExist) {
+            repository.remove(favorite.id)
+        } else {
+            repository.add(favorite.toDb())
+        }
+    }
 }
