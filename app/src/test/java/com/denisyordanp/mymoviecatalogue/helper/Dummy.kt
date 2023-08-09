@@ -1,6 +1,7 @@
 package com.denisyordanp.mymoviecatalogue.helper
 
-import com.denisyordanp.mymoviecatalogue.schemas.database.Favorite
+import com.denisyordanp.mymoviecatalogue.schemas.ui.Favorite as UiFavorite
+import com.denisyordanp.mymoviecatalogue.schemas.database.Favorite as DbFavorite
 import com.denisyordanp.mymoviecatalogue.schemas.response.Video as ResponseVideo
 import com.denisyordanp.mymoviecatalogue.schemas.database.Video as DbVideo
 import com.denisyordanp.mymoviecatalogue.schemas.response.Videos
@@ -99,12 +100,42 @@ object Dummy {
         )
     )
 
-    fun getDbFavorites() = listOf(
-        Favorite(
+    fun getUiFavorites() = listOf(
+        UiFavorite(
             id = Random.nextLong(),
             overview = String.random(2),
             posterPath = String.random(2),
             releaseDate = String.random(2),
+            title = String.random(2),
+            voteAverage = Random.nextDouble().toString(),
+            voteCount = Random.nextLong(),
+        ),
+        UiFavorite(
+            id = Random.nextLong(),
+            overview = String.random(2),
+            posterPath = String.random(2),
+            releaseDate = String.random(2),
+            title = String.random(2),
+            voteAverage = Random.nextDouble().toString(),
+            voteCount = Random.nextLong(),
+        )
+    )
+
+    fun getDbFavorites() = listOf(
+        DbFavorite(
+            id = Random.nextLong(),
+            overview = String.random(2),
+            posterPath = String.random(2),
+            releaseDate = "2023-05-23",
+            title = String.random(2),
+            voteAverage = Random.nextDouble(),
+            voteCount = Random.nextLong(),
+        ),
+        DbFavorite(
+            id = Random.nextLong(),
+            overview = String.random(2),
+            posterPath = String.random(2),
+            releaseDate = "2023-05-23",
             title = String.random(2),
             voteAverage = Random.nextDouble(),
             voteCount = Random.nextLong(),
