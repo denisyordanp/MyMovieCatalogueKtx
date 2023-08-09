@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Dummy
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Movie
+import com.denisyordanp.mymoviecatalogue.ui.components.EmptyContent
 import com.denisyordanp.mymoviecatalogue.ui.components.MovieItem
 import com.denisyordanp.mymoviecatalogue.ui.theme.MyMovieCatalogueTheme
 
@@ -23,7 +24,7 @@ fun FavoriteScreen(
     viewModel: FavoriteViewModel = hiltViewModel(),
     onMovieClicked: (movie: Movie) -> Unit
 ) {
-    val favorites = viewModel.favorites.collectAsState(initial = emptyList())
+    val favorites = viewModel.activeFavorites.collectAsState(initial = emptyList())
 
     FavoriteScreenContent(
         movies = favorites.value,
@@ -40,12 +41,18 @@ private fun FavoriteScreenContent(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
     ) {
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(6.dp),
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
-        ) {
-            items(movies) {
-                MovieItem(movie = it, onClickItem = onMovieClicked)
+        if (movies.isEmpty()) {
+            EmptyContent(
+                modifier = Modifier.fillMaxSize()
+            )
+        } else {
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(6.dp),
+                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+            ) {
+                items(movies) {
+                    MovieItem(movie = it, onClickItem = onMovieClicked)
+                }
             }
         }
     }
