@@ -4,6 +4,7 @@ package com.denisyordanp.mymoviecatalogue.ui.screens.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Genre
 import com.denisyordanp.mymoviecatalogue.tools.StackTrace
 import com.denisyordanp.mymoviecatalogue.usecase.GetGenres
@@ -19,6 +20,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val getGenres: GetGenres,
@@ -60,6 +62,7 @@ class MainViewModel @Inject constructor(
                     ) {
                         it.copy(
                             movies = getMovies(genreId = it.selectedGenre.id, isForce = isForce)
+                                .cachedIn(viewModelScope)
                         )
                     } else it
                 }.collect(_viewState)
