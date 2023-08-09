@@ -1,5 +1,6 @@
 package com.denisyordanp.mymoviecatalogue.repositories.impl
 
+import com.denisyordanp.mymoviecatalogue.database.FavoritesDao
 import com.denisyordanp.mymoviecatalogue.database.GenresDao
 import com.denisyordanp.mymoviecatalogue.database.MovieDetailDao
 import com.denisyordanp.mymoviecatalogue.database.MovieGenreDao
@@ -30,6 +31,7 @@ internal class MovieDetailRepositoryImplTest {
     private val mockedGenreDao = mock<GenresDao>()
     private val mockedMovieDetailDao = mock<MovieDetailDao>()
     private val mockedMovieGenreDao = mock<MovieGenreDao>()
+    private val mockedFavoriteDao = mock<FavoritesDao>()
 
     @Before
     fun setup() {
@@ -37,7 +39,8 @@ internal class MovieDetailRepositoryImplTest {
             mockedService,
             mockedMovieDetailDao,
             mockedGenreDao,
-            mockedMovieGenreDao
+            mockedMovieGenreDao,
+            mockedFavoriteDao
         )
     }
 
@@ -163,10 +166,12 @@ internal class MovieDetailRepositoryImplTest {
                 genre = it
             )
         }
-        val expected = dummyDetail.toUi(dummyGenres)
+        val dummyFavorite = Dummy.getDbFavorites().first()
+        val expected = dummyDetail.toUi(dummyGenres, true)
 
         whenever(mockedMovieDetailDao.getMovieDetail(movieId = dummyId)).thenReturn(flowOf(dummyDetail))
         whenever(mockedMovieGenreDao.getMovieGenres(movieId = dummyId)).thenReturn(flowOf(dummyMovieGenres))
+        whenever(mockedFavoriteDao.getFavorite(movieId = dummyId)).thenReturn(flowOf(dummyFavorite))
 
         val actual = underTest.getMovieDetail(dummyId).first()
 
@@ -174,6 +179,40 @@ internal class MovieDetailRepositoryImplTest {
 
         verify(mockedMovieDetailDao).getMovieDetail(dummyId)
         verify(mockedMovieGenreDao).getMovieGenres(dummyId)
+        verify(mockedFavoriteDao).getFavorite(dummyId)
+    }
+
+    @Test
+    fun `getMovieDetail should return error when getFavorite error`() = runTest {
+        val dummyId = Random.nextLong()
+        val dummyDetail = Dummy.getDbMovieDetail()
+        val dummyGenres = Dummy.getDbGenres()
+        val dummyMovieGenres = dummyGenres.map {
+            MovieWithGenres(
+                MovieGenre = MovieGenre(
+                    id = Random.nextLong(),
+                    movieId = dummyId,
+                    genreId = it.id
+                ),
+                genre = it
+            )
+        }
+        val expected = MockitoKotlinException(null, null)
+
+        whenever(mockedMovieDetailDao.getMovieDetail(movieId = dummyId)).thenReturn(flowOf(dummyDetail))
+        whenever(mockedMovieGenreDao.getMovieGenres(movieId = dummyId)).thenReturn(flowOf(dummyMovieGenres))
+        whenever(mockedFavoriteDao.getFavorite(movieId = dummyId)).thenThrow(expected)
+
+        try {
+            underTest.getMovieDetail(dummyId).first()
+        } catch (actual: Exception) {
+            assertTrue(actual is MockitoKotlinException)
+            assertEquals(expected, actual)
+        }
+
+        verify(mockedMovieDetailDao).getMovieDetail(dummyId)
+        verify(mockedMovieGenreDao).getMovieGenres(dummyId)
+        verify(mockedFavoriteDao).getFavorite(dummyId)
     }
 
     @Test
@@ -194,6 +233,7 @@ internal class MovieDetailRepositoryImplTest {
 
         verify(mockedMovieDetailDao).getMovieDetail(dummyId)
         verify(mockedMovieGenreDao).getMovieGenres(dummyId)
+        verify(mockedFavoriteDao, never()).getFavorite(dummyId)
     }
 
     @Test
@@ -212,5 +252,6 @@ internal class MovieDetailRepositoryImplTest {
 
         verify(mockedMovieDetailDao).getMovieDetail(dummyId)
         verify(mockedMovieGenreDao, never()).getMovieGenres(dummyId)
+        verify(mockedFavoriteDao, never()).getFavorite(dummyId)
     }
 }

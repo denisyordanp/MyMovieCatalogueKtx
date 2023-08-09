@@ -1,5 +1,6 @@
 package com.denisyordanp.mymoviecatalogue.helper
 
+import com.denisyordanp.mymoviecatalogue.schemas.database.Favorite
 import com.denisyordanp.mymoviecatalogue.schemas.response.Video as ResponseVideo
 import com.denisyordanp.mymoviecatalogue.schemas.database.Video as DbVideo
 import com.denisyordanp.mymoviecatalogue.schemas.response.Videos
@@ -43,7 +44,8 @@ object Dummy {
         tagline = String.random(2),
         title = String.random(2),
         voteAverage = Random.nextDouble(),
-        voteCount = Random.nextLong()
+        voteCount = Random.nextLong(),
+        posterPath = String.random(2)
     )
 
     fun getDbMovieDetail() = DbMovieDetail(
@@ -56,7 +58,8 @@ object Dummy {
         tagline = String.random(2),
         title = String.random(2),
         voteAverage = Random.nextDouble(),
-        voteCount = Random.nextLong()
+        voteCount = Random.nextLong(),
+        posterPath = String.random(2)
     )
 
     fun getResponseVideos(): Videos {
@@ -93,6 +96,18 @@ object Dummy {
             name = String.random(2),
             publishedAt = String.random(2),
             movieId = movieId
+        )
+    )
+
+    fun getDbFavorites() = listOf(
+        Favorite(
+            id = Random.nextLong(),
+            overview = String.random(2),
+            posterPath = String.random(2),
+            releaseDate = String.random(2),
+            title = String.random(2),
+            voteAverage = Random.nextDouble(),
+            voteCount = Random.nextLong(),
         )
     )
 }

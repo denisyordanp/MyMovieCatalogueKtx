@@ -33,7 +33,7 @@ internal class GetMovieDetailImplTest {
             val isForce = true
             val dummyId = Random.nextLong()
             val dummyGenres = Dummy.getDbGenres()
-            val expected = Dummy.getDbMovieDetail().toUi(dummyGenres)
+            val expected = Dummy.getDbMovieDetail().toUi(dummyGenres, false)
 
             whenever(mockedMovieDetailRepository.getMovieDetail(dummyId)).thenReturn(flowOf(expected))
 
@@ -50,7 +50,7 @@ internal class GetMovieDetailImplTest {
             val isForce = false
             val dummyId = Random.nextLong()
             val dummyGenres = Dummy.getDbGenres()
-            val expected = Dummy.getDbMovieDetail().toUi(dummyGenres)
+            val expected = Dummy.getDbMovieDetail().toUi(dummyGenres, false)
 
             whenever(mockedMovieDetailRepository.getMovieDetail(dummyId)).thenReturn(flowOf(expected))
 
@@ -66,7 +66,7 @@ internal class GetMovieDetailImplTest {
         val isForce = false
         val dummyId = Random.nextLong()
         val dummyGenres = Dummy.getDbGenres()
-        val expected = Dummy.getDbMovieDetail().toUi(dummyGenres)
+        val expected = Dummy.getDbMovieDetail().toUi(dummyGenres, false)
 
         whenever(mockedMovieDetailRepository.getMovieDetail(dummyId))
             .thenReturn(flow {
@@ -86,7 +86,7 @@ internal class GetMovieDetailImplTest {
         val isForce = false
         val dummyId = Random.nextLong()
         val dummyGenres = Dummy.getDbGenres()
-        val expected = Dummy.getDbMovieDetail().toUi(dummyGenres)
+        val expected = Dummy.getDbMovieDetail().toUi(dummyGenres, false)
 
         whenever(mockedMovieDetailRepository.getMovieDetail(dummyId))
             .thenReturn(flowOf(expected))
