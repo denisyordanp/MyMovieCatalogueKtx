@@ -7,8 +7,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FavoriteViewModel @Inject constructor(
-    getFavorites: GetFavorites
+    private val getFavorites: GetFavorites,
 ) : ViewModel() {
 
-    val favorites = getFavorites()
+    val activeFavorites get() = getFavorites.invoke()
 }
