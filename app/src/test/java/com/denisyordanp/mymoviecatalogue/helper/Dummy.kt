@@ -6,6 +6,7 @@ import com.denisyordanp.mymoviecatalogue.schemas.response.Video as ResponseVideo
 import com.denisyordanp.mymoviecatalogue.schemas.database.Video as DbVideo
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Video as UiVideo
 import com.denisyordanp.mymoviecatalogue.schemas.response.Videos
+import com.denisyordanp.mymoviecatalogue.schemas.ui.Movie
 import com.denisyordanp.mymoviecatalogue.schemas.ui.Review
 import kotlin.random.Random
 import com.denisyordanp.mymoviecatalogue.schemas.database.Genre as DbGenre
@@ -38,7 +39,7 @@ object Dummy {
         ),
     )
 
-    private fun getUiGenres() = listOf(
+    fun getUiGenres() = listOf(
         UiGenre(
             id = Random.nextLong(),
             name = String.random(2)
@@ -47,6 +48,27 @@ object Dummy {
             id = Random.nextLong(),
             name = String.random(2)
         ),
+    )
+
+    fun getUiMovies() = listOf(
+        Movie(
+            id = Random.nextLong(),
+            overview = String.random(2),
+            posterPath = String.random(2),
+            releaseDate = String.random(2),
+            title = String.random(2),
+            voteAverage = Random.nextDouble().toString(),
+            voteCount = Random.nextLong(),
+        ),
+        Movie(
+            id = Random.nextLong(),
+            overview = String.random(2),
+            posterPath = String.random(2),
+            releaseDate = String.random(2),
+            title = String.random(2),
+            voteAverage = Random.nextDouble().toString(),
+            voteCount = Random.nextLong(),
+        )
     )
 
     fun getResponseMovieDetail() = ResponseMovieDetail(

@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalCoroutinesApi::class)
+
 package com.denisyordanp.mymoviecatalogue.ui.screens.main
 
 import androidx.lifecycle.ViewModel
@@ -7,10 +9,12 @@ import com.denisyordanp.mymoviecatalogue.tools.StackTrace
 import com.denisyordanp.mymoviecatalogue.usecase.GetGenres
 import com.denisyordanp.mymoviecatalogue.usecase.GetMovies
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -49,24 +53,16 @@ class MainViewModel @Inject constructor(
                             error = it
                         )
                     )
-                }.collect {
-                    _viewState.emit(it)
-                    if (it.error == null && it.selectedGenre != null) {
-                        loadMovies(genreId = it.selectedGenre.id, isForce = isForce)
-                    }
-                }
-        }
-    }
-
-    private fun loadMovies(genreId: Long? = null, isForce: Boolean) {
-        viewModelScope.launch {
-            val currentState = _viewState.value
-            val currentGenreId = genreId ?: currentState.selectedGenre!!.id
-            _viewState.emit(
-                currentState.copy(
-                    movies = getMovies(genreId = currentGenreId, isForce = isForce)
-                )
-            )
+                }.mapLatest {
+                    if (it.error == null &&
+                        it.selectedGenre != null &&
+                        it.movies == MainViewState.idle().movies
+                    ) {
+                        it.copy(
+                            movies = getMovies(genreId = it.selectedGenre.id, isForce = isForce)
+                        )
+                    } else it
+                }.collect(_viewState)
         }
     }
 
@@ -74,10 +70,10 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             _viewState.emit(
                 _viewState.value.copy(
-                    selectedGenre = genre
+                    selectedGenre = genre,
+                    movies = getMovies(genreId = genre.id, isForce = false)
                 )
             )
-            loadMovies(genreId = genre.id, isForce = false)
         }
     }
 }
